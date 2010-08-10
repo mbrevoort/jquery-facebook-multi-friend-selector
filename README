@@ -1,0 +1,6 @@
+This is an client side alternative to the Facebook Multi-Friend Selector that 
+relies on jQuery. No server side component necessary which makes it really
+easy to adapt and use. 
+
+Currently there's a very first cut that's, very rough and not in the form of a plugin.
+
