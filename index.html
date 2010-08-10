@@ -22,30 +22,41 @@
             <div id="fb-root"></div>
             <script src="http://connect.facebook.net/en_US/all.js"></script>
             <script>
-              FB.init({appId: '138240409546605', cookie: true});
+                FB.init({appId: '138240409546605', cookie: true});
+
+                FB.getLoginStatus(function(response) {
+                    if (response.session) {
+                      init();
+                    } else {
+                      // no user session available, someone you dont know
+                    }
+                });
+
 
                 function login() {
                     FB.login(function(response) {
-                      if (response.session) {
-
-                          FB.api('/me', function(response) {
-                              $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
-                              $("#jfmfs-container").jfmfs();
-                              $("#logged-out-status").hide();
-                              $("#show-friends").show();
-
-                          });
-                      } else {
-                        alert('Login Failed!');
-                      }
+                        if (response.session) {
+                            init();
+                        } else {
+                            alert('Login Failed!');
+                        }
                     });
-
                 }
+
+                function init() {
+                  FB.api('/me', function(response) {
+                      $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
+                      $("#jfmfs-container").jfmfs();
+                      $("#logged-out-status").hide();
+                      $("#show-friends").show();
+  
+                  });
+                }              
 
 
                 $("#show-friends").live("click", function() {
-                   var friendSelector = $("#jfmfs-container").data('jfmfs');             
-                   $("#selected-friends").html(friendSelector.getSelectedIds().join(', ')); 
+                    var friendSelector = $("#jfmfs-container").data('jfmfs');             
+                    $("#selected-friends").html(friendSelector.getSelectedIds().join(', ')); 
                 });                  
 
 
