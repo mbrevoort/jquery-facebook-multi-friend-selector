@@ -122,28 +122,32 @@
             <div id="fb-root"></div>
             <script src="http://connect.facebook.net/en_US/all.js"></script>
             <script>
-              FB.init({appId: '138240409546605', status: true, cookie: true});
-              FB.login(function(response) {
-                if (response.session) {
+              FB.init({appId: '138240409546605', cookie: true});
 
-                    FB.api('/me', function(response) {
-                        $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
+              function login() {
+                  FB.login(function(response) {
+                    if (response.session) {
 
-                        FB.api('/me/friends', function(response) {
-                            $.each(response.data, function(i, friend) {
-                                $("#friend-container").append("<div class='friend' id='" + friend.id  +"'><img src='https://graph.facebook.com/" + friend.id + "/picture' /><div class='friend-name'>" + friend.name + "</div></div>");
+                        FB.api('/me', function(response) {
+                            $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
+
+                            FB.api('/me/friends', function(response) {
+                                $.each(response.data, function(i, friend) {
+                                    $("#friend-container").append("<div class='friend' id='" + friend.id  +"'><img src='https://graph.facebook.com/" + friend.id + "/picture' /><div class='friend-name'>" + friend.name + "</div></div>");
+                                });
+                                $("#friend-count").html(response.data.length);
+                                $("#user-status").show();
+                                $("#logged-out-status").hide();
+                                friends_selector_init();
                             });
-                            $("#friend-count").html(response.data.length);
-                            $("#user-status").show();
-                            $("#logged-out-status").hide();
-                            friends_selector_init();
-                        });
 
-                    });
-                } else {
-                  // user cancelled login
-                }
-              });
+                        });
+                    } else {
+                      alert('Login Failed!');
+                    }
+                  });
+                  
+              }
 
               function friends_selector_init() {
                   $(".friend").live('click', function() {
@@ -216,7 +220,7 @@
                 <span id="username"></span> has <span id="friend-count"></span>  friends
             </div>
             <div id="logged-out-status" style="">
-                Not Logged In
+                <a href="javascript:login()">Login</a>
             </div>
             <a href="#" id="show-friends">Show Selected Friends</a>
             <div id="selected-friends" style="height:30px"></div>
