@@ -7,19 +7,19 @@
                 color: #333;
                 font: 11px verdana, arial, helvetica, sans-serif;
             }
-            a:link, a:visited, a:hover {
+             #jfmfs-friend-selector a:link, a:visited, a:hover {
                 color: #666;
                 font-weight: bold;
                 text-decoration: none;
             }
-            input, select, textarea {
+             #jfmfs-friend-selector input {
                 background-color: #fcfcfc;
                 border: 1px solid #ccc;
                 font: 11px verdana, arial, helvetica, sans-serif;
                 margin: 2px 0;
                 padding: 2px 4px;
             }
-            .friend {                
+            #jfmfs-friend-selector .jfmfs-friend {                
                 cursor:pointer;
                 display:block;
                 float:left;
@@ -32,14 +32,14 @@
                 -webkit-border-radius: 5px;
             }
             
-            .friend img {
+            #jfmfs-friend-selector .jfmfs-friend img {
                 border:1px solid #CCCCCC;
                 float:left;
                 margin:0;
                 padding:2px 2px 0;
             }
             
-            .friend div {
+            #jfmfs-friend-selector .jfmfs-friend div {
                 color:#111111;
                 font-size:11px;
                 overflow:hidden;
@@ -47,7 +47,7 @@
                 width:62px;
             }
             
-            #friend-container {
+            #jfmfs-friend-container {
                 overflow:scroll;
                 overflow-x: hidden;
                 -ms-overflow-x: hidden;
@@ -55,12 +55,12 @@
                 height:400px;  
             }
             
-            #friend-selector {
+            #jfmfs-friend-selector {
                 width:725px;   
                 height:376px;                            
             }
             
-            #inner-header {
+            #jfmfs-inner-header {
                 background:none repeat scroll 0 0 #F7F7F7;
                 border-bottom:1px solid #CCCCCC;
                 color:#3B5998;
@@ -70,24 +70,25 @@
                 padding:2px;
             }
             
-            .selected {
+            #jfmfs-friend-selector .selected {
                 background-color: #3B5998;
                 border: 1px solid #3B5998;
             }
             
-            .selected div {
+            #jfmfs-friend-selector .selected div {
                 color: #FFFFFF;
             }
             
-            .hover {
+            #jfmfs-friend-selector .hover {
                 background-color: #EFF2F7;
             }
             
-            .hide-non-selected, .hide-filtered {
+            #jfmfs-friend-selector .hide-non-selected, 
+            #jfmfs-friend-selector .hide-filtered {
                 display: none;
             }
             
-            div.button {
+            div.jfmfs-button {
                 background:none repeat scroll 0 0 #6D84B4;
                 border:1px solid #3B5998;
                 color:white;
@@ -97,19 +98,19 @@
                 text-decoration:none;
             }
             
-            #inner-header div.button {
+            #jfmfs-inner-header div.jfmfs-button {
                 float:right;
             }
             
-            #inner-header div.button-hover {
+            #jfmfs-inner-header div.jfmfs-button-hover {
                 text-decoration: underline;
             }
             
-            #friend-filter-text {
+            #jfmfs-friend-filter-text {
                 height: 23px;
             }
             
-            #inner-header span.title {
+            #jfmfs-inner-header span.jfmfs-title {
                 color: #333333;
                 font-weight: bold;
                 margin: 3px 0 2px;
@@ -133,7 +134,7 @@
 
                             FB.api('/me/friends', function(response) {
                                 $.each(response.data, function(i, friend) {
-                                    $("#friend-container").append("<div class='friend' id='" + friend.id  +"'><img src='https://graph.facebook.com/" + friend.id + "/picture' /><div class='friend-name'>" + friend.name + "</div></div>");
+                                    $("#jfmfs-friend-container").append("<div class='jfmfs-friend' id='" + friend.id  +"'><img src='https://graph.facebook.com/" + friend.id + "/picture' /><div class='friend-name'>" + friend.name + "</div></div>");
                                 });
                                 $("#friend-count").html(response.data.length);
                                 $("#user-status").show();
@@ -150,15 +151,15 @@
               }
 
               function friends_selector_init() {
-                  $(".friend").live('click', function() {
+                  $(".jfmfs-friend").live('click', function() {
                     $(this).toggleClass("selected");
-                    $("#selected-count").html($(".selected").size());
+                    $("#jfmfs-selected-count").html($(".selected").size());
                     $(this).removeClass("hover");
                   });
 
                   $("#show-friends").live('click', function() {
                       var ids = [];
-                      $.each($(".friend.selected"), function(i, friend) {
+                      $.each($(".jfmfs-friend.selected"), function(i, friend) {
                         ids.push($(friend).attr("id"));
 
                       });
@@ -166,15 +167,15 @@
                       $("#selected-friends").html(ids.join(', '));
                   });
                   
-                  $("#filter-selected").live('click', function() {
-                      $(".friend").not(".selected").addClass("hide-non-selected");
+                  $("#jfmfs-filter-selected").live('click', function() {
+                      $(".jfmfs-friend").not(".selected").addClass("hide-non-selected");
                   });
                   
-                  $("#filter-all").live('click', function() {
-                      $(".friend").removeClass("hide-non-selected");
+                  $("#jfmfs-filter-all").live('click', function() {
+                      $(".jfmfs-friend").removeClass("hide-non-selected");
                   });
                   
-                  $(".friend:not(.selected)").live(
+                  $(".jfmfs-friend:not(.selected)").live(
                       'hover', function (ev) {
                           if (ev.type == 'mouseover') {
                               $(this).addClass("hover");
@@ -184,15 +185,15 @@
                           }
                   });                  
                   
-                  $("#friend-filter-text")
+                  $("#jfmfs-friend-filter-text")
                       .keyup( function() {
                          var filter = $(this).val();
                          if(filter == '') {
-                            $(".friend").removeClass("hide-filtered");
+                            $(".jfmfs-friend").removeClass("hide-filtered");
                          }
                          else {
-                             $("#friend-selector").find(".friend-name:not(:Contains(" + filter +"))").parent().addClass("hide-filtered");
-                             $("#friend-selector").find(".friend-name:Contains(" + filter +")").parent().removeClass("hide-filtered");                         
+                             $("#jfmfs-friend-selector").find(".friend-name:not(:Contains(" + filter +"))").parent().addClass("hide-filtered");
+                             $("#jfmfs-friend-selector").find(".friend-name:Contains(" + filter +")").parent().removeClass("hide-filtered");                         
                          }    
                       })
                     .focus( function() {
@@ -203,9 +204,9 @@
                         if($.trim($(this).val()) == '')
                             $(this).val('Start typing a name');                        
                     });
-                  $(".button").hover(
-                      function(){ $(this).addClass("button-hover");} , 
-                      function(){ $(this).removeClass("button-hover");}
+                  $(".jfmfs-button").hover(
+                      function(){ $(this).addClass("jfmfs-button-hover");} , 
+                      function(){ $(this).removeClass("jfmfs-button-hover");}
                   );
               }
               
@@ -225,13 +226,13 @@
                 <div style="clear:both;"></div>
                 <a href="#" id="show-friends">Show Selected Friends</a>
                 <div id="selected-friends" style="height:30px"></div>
-                <div id="friend-selector">
-                    <div id="inner-header">
-                        <span class="title">Find Friends: </span><input type="text" id="friend-filter-text"/>
-                        <div class="button" id="filter-all">All</div>
-                        <div class="button" id="filter-selected">Selected (<span id="selected-count">0</span>)</div>
+                <div id="jfmfs-friend-selector">
+                    <div id="jfmfs-inner-header">
+                        <span class="jfmfs-title">Find Friends: </span><input type="text" id="jfmfs-friend-filter-text"/>
+                        <div class="jfmfs-button" id="jfmfs-filter-all">All</div>
+                        <div class="jfmfs-button" id="jfmfs-filter-selected">Selected (<span id="jfmfs-selected-count">0</span>)</div>
                     </div>
-                    <div id="friend-container"></div>
+                    <div id="jfmfs-friend-container"></div>
                 </div>
             </div>
         </div>
