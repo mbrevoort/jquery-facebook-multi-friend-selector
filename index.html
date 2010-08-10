@@ -1,80 +1,217 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"/>
+        <style>
+            .friend {                
+                cursor:pointer;
+                display:block;
+                float:left;
+                height:56px;
+                margin:3px;
+                padding:4px;
+                width:126px;
+                border: 1px solid #FFFFFF;
+                -moz-border-radius: 5px; 
+                -webkit-border-radius: 5px;
+            }
+            
+            .friend img {
+                border:1px solid #CCCCCC;
+                float:left;
+                margin:0;
+                padding:2px 2px 0;
+            }
+            
+            .friend div {
+                color:#111111;
+                font-size:11px;
+                overflow:hidden;
+                padding:2px 0 0 6px;
+                width:62px;
+            }
+            
+            #friend-container {
+                overflow:scroll;
+                overflow-x: hidden;
+                -ms-overflow-x: hidden;
+                width:100%;
+                height:400px;  
+            }
+            
+            #friend-selector {
+                width:725px;   
+                height:376px;                            
+            }
+            
+            #inner-header {
+                background:none repeat scroll 0 0 #F7F7F7;
+                border-bottom:1px solid #CCCCCC;
+                color:#3B5998;
+                font-size:11px;
+                font-weight:bold;
+                height:25px;
+                padding:2px;
+            }
+            
+            .selected {
+                background-color: #3B5998;
+                border: 1px solid #3B5998;
+            }
+            
+            .selected div {
+                color: #FFFFFF;
+            }
+            
+            .hover {
+                background-color: #EFF2F7;
+            }
+            
+            .hide-non-selected, .hide-filtered {
+                display: none;
+            }
+            
+            div.button {
+                background:none repeat scroll 0 0 #6D84B4;
+                border:1px solid #3B5998;
+                color:white;
+                cursor:pointer;
+                margin:4px 5px 0 4px;
+                padding:2px 5px;
+                text-decoration:none;
+            }
+            
+            #inner-header div.button {
+                float:right;
+            }
+            
+            #inner-header div.button-hover {
+                text-decoration: underline;
+            }
+            
+            #friend-filter-text {
+                height: 23px;
+            }
+            
+            #inner-header span.title {
+                color: #333333;
+                font-weight: bold;
+                margin: 3px 0 2px;
+            }
+        </style>
+    </head>
+    <body>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <div id="pageBody">
+            <div id="fb-root"></div>
+            <script src="http://connect.facebook.net/en_US/all.js"></script>
+            <script>
+              FB.init({appId: '138240409546605', status: true, cookie: true, xfbml: true});
+              FB.login(function(response) {
+                if (response.session) {
 
-	<title>mbrevoort/jquery-facebook-multi-friend-selector @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #922789;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #6dd876; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #6dd876; }
-    h3 { text-align: center; color: #6dd876; }
-    a { color: #6dd876; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
+                    FB.api('/me', function(response) {
+                        $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
 
-<body>
-  <a href="http://github.com/mbrevoort/jquery-facebook-multi-friend-selector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+                        FB.api('/me/friends', function(response) {
+                            $.each(response.data, function(i, friend) {
+                                $("#friend-container").append("<div class='friend' id='" + friend.id  +"'><img src='https://graph.facebook.com/" + friend.id + "/picture' /><div class='friend-name'>" + friend.name + "</div></div>");
+                            });
+                            $("#friend-count").html(response.data.length);
+                            $("#user-status").show();
+                            $("#logged-out-status").hide();
+                            friends_selector_init();
+                        });
 
-  <div id="container">
+                    });
+                } else {
+                  // user cancelled login
+                }
+              });
 
-    <div class="download">
-      <a href="http://github.com/mbrevoort/jquery-facebook-multi-friend-selector/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/mbrevoort/jquery-facebook-multi-friend-selector/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
+              function friends_selector_init() {
+                  $(".friend").live('click', function() {
+                    $(this).toggleClass("selected");
+                    $("#selected-count").html($(".selected").size());
+                    $(this).removeClass("hover");
+                  });
 
-    <h1><a href="http://github.com/mbrevoort/jquery-facebook-multi-friend-selector">jquery-facebook-multi-friend-selector</a>
-      <span class="small">by <a href="http://github.com/mbrevoort">mbrevoort</a></span></h1>
+                  $("#show-friends").live('click', function() {
+                      var ids = [];
+                      $.each($(".friend.selected"), function(i, friend) {
+                        ids.push($(friend).attr("id"));
 
-    <div class="description">
-      A jQuery based Alternative Facebook Multi-Friend Selector that uses the Graph API
-    </div>
+                      });
 
-    <h2>Authors</h2>
-<p>Mike Brevoort (mike@brevoort.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Mike Brevoort (mike@brevoort.com)<br/>      </p>
+                      $("#selected-friends").html(ids.join(', '));
+                  });
+                  
+                  $("#filter-selected").live('click', function() {
+                      $(".friend").not(".selected").addClass("hide-non-selected");
+                  });
+                  
+                  $("#filter-all").live('click', function() {
+                      $(".friend").removeClass("hide-non-selected");
+                  });
+                  
+                  $(".friend:not(.selected)").live(
+                      'hover', function (ev) {
+                          if (ev.type == 'mouseover') {
+                              $(this).addClass("hover");
+                          }
+                          if (ev.type == 'mouseout') {
+                              $(this).removeClass("hover");
+                          }
+                  });                  
+                  
+                  $("#friend-filter-text")
+                      .keyup( function() {
+                         var filter = $(this).val();
+                         if(filter == '') {
+                            $(".friend").removeClass("hide-filtered");
+                         }
+                         else {
+                             $("#friend-selector").find(".friend-name:not(:Contains(" + filter +"))").parent().addClass("hide-filtered");
+                             $("#friend-selector").find(".friend-name:Contains(" + filter +")").parent().removeClass("hide-filtered");                         
+                         }    
+                      })
+                    .focus( function() {
+                        if($.trim($(this).val()) == 'Start typing a name')
+                            $(this).val('');
+                    })
+                    .blur(function() {
+                        if($.trim($(this).val()) == '')
+                            $(this).val('Start typing a name');                        
+                    });
+                  $(".button").hover(
+                      function(){ $(this).addClass("button-hover");} , 
+                      function(){ $(this).removeClass("button-hover");}
+                  );
+              }
+              
+              
+              
+              jQuery.expr[':'].Contains = function(a, i, m) { 
+                return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0; 
+              };
+            </script>
 
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/mbrevoort/jquery-facebook-multi-friend-selector/zipball/master">zip</a> or
-      <a href="http://github.com/mbrevoort/jquery-facebook-multi-friend-selector/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/mbrevoort/jquery-facebook-multi-friend-selector</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/mbrevoort/jquery-facebook-multi-friend-selector">mbrevoort/jquery-facebook-multi-friend-selector</a>
-    </div>
-
-  </div>
-
-  
-</body>
+            <div id="user-status" style="display:none;">
+                <span id="username"></span> has <span id="friend-count"></span>  friends
+            </div>
+            <div id="logged-out-status" style="">
+                Not Logged In
+            </div>
+            <a href="#" id="show-friends">Show Selected Friends</a>
+            <div id="selected-friends" style="height:30px"></div>
+            <div id="friend-selector">
+                <div id="inner-header">
+                    <span class="title">Find Friends: </span><input type="text" id="friend-filter-text"/>
+                    <div class="button" id="filter-all">All</div>
+                    <div class="button" id="filter-selected">Selected (<span id="selected-count">0</span>)</div>
+                </div>
+                <div id="friend-container"></div>
+            </div>
+        </div>
+    </body>
 </html>
+
