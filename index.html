@@ -216,21 +216,23 @@
               };
             </script>
 
-            <div id="user-status" style="display:none;">
-                <span id="username"></span> has <span id="friend-count"></span>  friends
-            </div>
             <div id="logged-out-status" style="">
                 <a href="javascript:login()">Login</a>
             </div>
-            <a href="#" id="show-friends">Show Selected Friends</a>
-            <div id="selected-friends" style="height:30px"></div>
-            <div id="friend-selector">
-                <div id="inner-header">
-                    <span class="title">Find Friends: </span><input type="text" id="friend-filter-text"/>
-                    <div class="button" id="filter-all">All</div>
-                    <div class="button" id="filter-selected">Selected (<span id="selected-count">0</span>)</div>
+            
+            <div id="user-status" style="display:none;">
+                <span id="username"></span> has <span id="friend-count"></span>  friends
+                <div style="clear:both;"></div>
+                <a href="#" id="show-friends">Show Selected Friends</a>
+                <div id="selected-friends" style="height:30px"></div>
+                <div id="friend-selector">
+                    <div id="inner-header">
+                        <span class="title">Find Friends: </span><input type="text" id="friend-filter-text"/>
+                        <div class="button" id="filter-all">All</div>
+                        <div class="button" id="filter-selected">Selected (<span id="selected-count">0</span>)</div>
+                    </div>
+                    <div id="friend-container"></div>
                 </div>
-                <div id="friend-container"></div>
             </div>
         </div>
     </body>
