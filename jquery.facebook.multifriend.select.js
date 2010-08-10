@@ -49,7 +49,7 @@
             // handle when a friend is clicked for selection
             elem.find(".jfmfs-friend").live('click', function() {
                 $(this).toggleClass("selected");
-                $("#jfmfs-selected-count").html($(".selected").size());
+                $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
                 $(this).removeClass("hover");
             });
 
