@@ -24,8 +24,8 @@
         FB.api('/me/friends', function(response) {
             $.each(response.data, function(i, friend) {
                 $("#jfmfs-friend-container").append("<div class='jfmfs-friend' id='" + friend.id  +"'><img src='https://graph.facebook.com/" + friend.id + "/picture' /><div class='friend-name'>" + friend.name + "</div></div>");
-                init();
             });
+            init();
         });
         
         
@@ -48,10 +48,7 @@
         var init = function() {
             // handle when a friend is clicked for selection
             elem.find(".jfmfs-friend").live('click', function() {
-                // toggleClass all of a sudden stopped working???
-                alert("in here");
-                if( $(this).hasClass("selected") )  $(this).removeClass("selected");
-                else if( !$(this).hasClass("selected") )  $(this).addClass("selected");
+                $(this).toggleClass("selected");
                 $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
                 $(this).removeClass("hover");
             });
