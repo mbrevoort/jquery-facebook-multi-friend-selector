@@ -50,7 +50,7 @@
             elem.find(".jfmfs-friend").live('click', function() {
                 // toggleClass all of a sudden stopped working???
                 if( $(this).hasClass("selected") )  $(this).removeClass("selected");
-                if( !$(this).hasClass("selected") )  $(this).addClass("selected");
+                else if( !$(this).hasClass("selected") )  $(this).addClass("selected");
                 $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
                 $(this).removeClass("hover");
             });
