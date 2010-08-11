@@ -49,6 +49,7 @@
             // handle when a friend is clicked for selection
             elem.find(".jfmfs-friend").live('click', function() {
                 // toggleClass all of a sudden stopped working???
+                alert("in here");
                 if( $(this).hasClass("selected") )  $(this).removeClass("selected");
                 else if( !$(this).hasClass("selected") )  $(this).addClass("selected");
                 $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
