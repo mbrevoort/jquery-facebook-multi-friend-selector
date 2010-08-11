@@ -71,6 +71,7 @@
                         }
                     }
                 }
+                lastSelected = $(this);
                 $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
             });
 
