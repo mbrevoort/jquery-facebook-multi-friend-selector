@@ -66,6 +66,7 @@
                             for(var i=start; i<=end; i++) {
                                 $( $(".jfmfs-friend")[i] ).addClass("selected");
                             }
+                            lastSelected = $(this);
                         }
                     }
                 }
