@@ -14,8 +14,8 @@
             "<div id='jfmfs-friend-selector'>" +
             "    <div id='jfmfs-inner-header'>" +
             "        <span class='jfmfs-title'>Find Friends: </span><input type='text' id='jfmfs-friend-filter-text'/>" +
-            "        <div class='jfmfs-button' id='jfmfs-filter-all'>All</div>" +
-            "        <div class='jfmfs-button' id='jfmfs-filter-selected'>Selected (<span id='jfmfs-selected-count'>0</span>)</div>" +
+            "        <a class='filter-link selected' id='jfmfs-filter-all' href='#'>All</a>" +
+            "        <a class='filter-link' id='jfmfs-filter-selected' href='#'>Selected (<span id='jfmfs-selected-count'>0</span>)</a>" +
             "    </div>" +
             "    <div id='jfmfs-friend-container'></div>" +
             "</div>" 
@@ -56,11 +56,15 @@
             // filter by selected, hide all non-selected
             elem.find("#jfmfs-filter-selected").live('click', function() {
                 $(".jfmfs-friend").not(".selected").addClass("hide-non-selected");
+                $(".filter-link").removeClass("selected");
+                $(this).addClass("selected");
             });
 
             // remove filter, show all
             elem.find("#jfmfs-filter-all").live('click', function() {
                 $(".jfmfs-friend").removeClass("hide-non-selected");
+                $(".filter-link").removeClass("selected");
+                $(this).addClass("selected");
             });
 
             // hover effect on friends

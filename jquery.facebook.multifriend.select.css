@@ -1,10 +1,6 @@
 
- #jfmfs-friend-selector a:link, a:visited, a:hover {
-    color: #666;
-    font-weight: bold;
-    text-decoration: none;
-}
- #jfmfs-friend-selector input {
+
+#jfmfs-friend-selector input {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
     font: 11px verdana, arial, helvetica, sans-serif;
@@ -25,10 +21,13 @@
 }
 
 .jfmfs-friend img {
-    border:1px solid #CCCCCC;
+    border: 1px solid #CCC;
     float:left;
     margin:0;
-    padding:2px 2px 0;
+}
+
+.jfmfs-friend.selected img {
+    border: 1px solid #233E75;
 }
 
 .jfmfs-friend div {
@@ -45,6 +44,9 @@
     -ms-overflow-x: hidden;
     width:100%;
     height:400px;  
+    font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+    color: #333;
+    font-size: 12px;
 }
 
 #jfmfs-friend-selector {
@@ -62,12 +64,18 @@
     padding:2px;
 }
 
-.selected {
+.jfmfs-friend.selected {
     background-color: #3B5998;
     border: 1px solid #3B5998;
+    
+    background: #6D84B4; /* for non-css3 browsers */
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#233E75', endColorstr='#6D84B4'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#233E75), to(#6D84B4)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #233E75,  #6D84B4); /* for firefox 3.6+ */    
 }
 
-.selected div {
+.jfmfs-friend.selected div {
     color: #FFFFFF;
 }
 
@@ -89,7 +97,25 @@ div.jfmfs-button {
     text-decoration:none;
 }
 
-#jfmfs-inner-header div.jfmfs-button {
+#jfmfs-friend-selector a.filter-link:link, a.filter-link:visited {
+    color: #3B5998;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#jfmfs-friend-selector a.filter-link:hover, #jfmfs-friend-selector a.selected {
+    background-color: #6D84B4;
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px;
+    color: #FFFFFF;
+}
+
+#jfmfs-friend-selector .filter-link {
+    margin:4px 5px 4px 5px;
+    padding:3px 5px 3px 5px;
+}
+
+#jfmfs-inner-header .filter-link {
     float:right;
 }
 
