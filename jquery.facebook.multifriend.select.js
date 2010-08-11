@@ -64,12 +64,13 @@
                             var end = Math.max(selIndex,lastIndex);
                             var start = Math.min(selIndex,lastIndex);
                             for(var i=start; i<=end; i++) {
-                                $( $(".jfmfs-friend")[i] ).addClass("selected");
+                                var aFriend = $( $(".jfmfs-friend")[i] );
+                                if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered"))
+                                    $( $(".jfmfs-friend")[i] ).addClass("selected");
                             }
                         }
                     }
                 }
-                lastSelected = $(this);
                 $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
             });
 
