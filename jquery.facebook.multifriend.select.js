@@ -5,6 +5,7 @@
         var settings = $.extend({
             param: 'defaultValue'
         }, options || {});
+        var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
         
         // ----------+----------+----------+----------+----------+----------+----------+
@@ -47,10 +48,28 @@
         
         var init = function() {
             // handle when a friend is clicked for selection
-            elem.find(".jfmfs-friend").live('click', function() {
+            elem.find(".jfmfs-friend").live('click', function(event) {
                 $(this).toggleClass("selected");
-                $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
                 $(this).removeClass("hover");
+                
+                // support shift-click operations to select multiple items at a time
+                if( $(this).hasClass("selected")) {
+                    if ( !lastSelected ) {
+                        lastSelected = $(this);
+                    } 
+                    else {                        
+                        if( event.shiftKey ) {
+                            var selIndex = $(this).index();
+                            var lastIndex = lastSelected.index();
+                            var end = Math.max(selIndex,lastIndex);
+                            var start = Math.min(selIndex,lastIndex);
+                            for(var i=start; i<=end; i++) {
+                                $( $(".jfmfs-friend")[i] ).addClass("selected");
+                            }
+                        }
+                    }
+                }
+                $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
             });
 
             // filter by selected, hide all non-selected
