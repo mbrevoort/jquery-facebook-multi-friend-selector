@@ -66,10 +66,10 @@
                             for(var i=start; i<=end; i++) {
                                 $( $(".jfmfs-friend")[i] ).addClass("selected");
                             }
-                            lastSelected = $(this);
                         }
                     }
                 }
+                lastSelected = $(this);
                 $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
             });
 
