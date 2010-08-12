@@ -2,9 +2,7 @@ This is an client side alternative to the Facebook Multi-Friend Selector that
 relies on jQuery. No server side component necessary which makes it really
 easy to adapt and use. 
 
-**************************************
-* STILL VERY MUCH A WORK IN PROGRESS *
-**************************************
+Check out this blog post with more details and screencat: http://bit.ly/cHDkzm
 
 To see a demo go here:
 http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/#
@@ -13,13 +11,12 @@ Click login and login to your facebook account and you should see the friend sel
 This plugin is depends on the new Facebook Javascript API
 <script src="http://connect.facebook.net/en_US/all.js"></script>
 
-There's now a jquery plugin and accompanying CSS file
+There's a jquery plugin and accompanying CSS file
 
 Assuming you have a container like:
 <div id="jfmfs-container"></div>
 
 And you have included the Facebook Javascript API
-
 And you have already logged the user in. (FB.init and FB.login)
 
 You can load the friend selector in a container like this:
