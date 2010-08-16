@@ -19,7 +19,7 @@
         var elem = $(element);
         var obj = this;
         var settings = $.extend({
-            param: 'defaultValue'
+            max_selected: 25
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
@@ -65,6 +65,8 @@
         var init = function() {
             // handle when a friend is clicked for selection
             elem.find(".jfmfs-friend").live('click', function(event) {
+                if(!$(this).hasClass("selected") && $(".jfmfs-friend.selected").size() >= settings.max_selected)
+                    return;
                 $(this).toggleClass("selected");
                 $(this).removeClass("hover");
                 
@@ -82,7 +84,8 @@
                             for(var i=start; i<=end; i++) {
                                 var aFriend = $( $(".jfmfs-friend")[i] );
                                 if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered"))
-                                    $( $(".jfmfs-friend")[i] ).addClass("selected");
+                                    if($(".jfmfs-friend.selected").size() < settings.max_selected)
+                                        $( $(".jfmfs-friend")[i] ).addClass("selected");
                             }
                         }
                     }
