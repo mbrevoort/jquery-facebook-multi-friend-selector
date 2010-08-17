@@ -46,7 +46,7 @@
                 function init() {
                   FB.api('/me', function(response) {
                       $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
-                      $("#jfmfs-container").jfmfs();
+                      $("#jfmfs-container").jfmfs({ max_selected: 15, max_selected_message: "{0} of {1} selected"});
                       $("#logged-out-status").hide();
                       $("#show-friends").show();
   
