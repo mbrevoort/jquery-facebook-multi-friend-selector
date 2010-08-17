@@ -139,12 +139,20 @@ div.jfmfs-button {
     text-decoration: underline;
 }
 
+
 #jfmfs-friend-filter-text {
-    height: 23px;
+    height: 17px;
 }
+
 
 #jfmfs-inner-header span.jfmfs-title {
     color: #333333;
     font-weight: bold;
     margin: 3px 0 2px;
+}
+
+#jfmfs-max-selected-wrapper {
+    float: right;
+    margin:4px 5px 4px 5px;
+    padding:3px 5px 3px 5px;  
 }

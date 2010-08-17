@@ -27,3 +27,8 @@ This should fetch the current users friends and give you the interface to select
 var friendSelector  = $("#jfmfs-container").data('jfmfs');
 var selectedFriends = friendSelector.getSelectedIds();
 
+Options 
+These options can be passed into the jfmfs function with a map of options like jfmfs({key1: val, key2: val})
+
+max_selected: int (optional)- max number of items that can be selected
+max_selected_message: String (optional, but required if max_selected specified) - message to display showing how many items are already selected like: "{0} of {1} chosen"}

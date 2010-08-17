@@ -19,7 +19,8 @@
         var elem = $(element);
         var obj = this;
         var settings = $.extend({
-            max_selected: 25
+            max_selected: -1,
+            max_selected_message: "{0} of {1} selected"
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
@@ -33,6 +34,7 @@
             "        <span class='jfmfs-title'>Find Friends: </span><input type='text' id='jfmfs-friend-filter-text'/>" +
             "        <a class='filter-link selected' id='jfmfs-filter-all' href='#'>All</a>" +
             "        <a class='filter-link' id='jfmfs-filter-selected' href='#'>Selected (<span id='jfmfs-selected-count'>0</span>)</a>" +
+            ((settings.max_selected > 0) ? "<div id='jfmfs-max-selected-wrapper'></div>" : "") +
             "    </div>" +
             "    <div id='jfmfs-friend-container'></div>" +
             "</div>" 
@@ -65,8 +67,14 @@
         var init = function() {
             // handle when a friend is clicked for selection
             elem.find(".jfmfs-friend").live('click', function(event) {
-                if(!$(this).hasClass("selected") && $(".jfmfs-friend.selected").size() >= settings.max_selected)
+                
+                // if the element is being selected, test if the max number of items have
+                // already been selected, if so, just return
+                if(!$(this).hasClass("selected") && 
+                    maxSelectedEnabled() &&
+                    $(".jfmfs-friend.selected").size() >= settings.max_selected)
                     return;
+                    
                 $(this).toggleClass("selected");
                 $(this).removeClass("hover");
                 
@@ -84,14 +92,22 @@
                             for(var i=start; i<=end; i++) {
                                 var aFriend = $( $(".jfmfs-friend")[i] );
                                 if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered"))
-                                    if($(".jfmfs-friend.selected").size() < settings.max_selected)
+                                    if( maxSelectedEnabled() && $(".jfmfs-friend.selected").size() < settings.max_selected )
                                         $( $(".jfmfs-friend")[i] ).addClass("selected");
                             }
                         }
                     }
                 }
+                
+                // keep track of last selected, this is used for the shift-select functionality
                 lastSelected = $(this);
-                $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").size());
+                
+                // update the count of the total number selected
+                $("#jfmfs-selected-count").html( selectedCount() );
+                
+                if( maxSelectedEnabled() ) {
+                    updateMaxSelectedMessage();
+                }
             });
 
             // filter by selected, hide all non-selected
@@ -144,11 +160,28 @@
             elem.find(".jfmfs-button").hover(
                 function(){ $(this).addClass("jfmfs-button-hover");} , 
                 function(){ $(this).removeClass("jfmfs-button-hover");}
-            );                
+            );      
+            
+            updateMaxSelectedMessage();          
             
         };
+
+        var selectedCount = function() {
+            return $(".jfmfs-friend.selected").size();
+        }
+
+        var maxSelectedEnabled = function () {
+            return settings.max_selected > 0;
+        }
+        
+        var updateMaxSelectedMessage = function() {
+            var message = settings.max_selected_message.replace("{0}", selectedCount()).replace("{1}", settings.max_selected)
+            $("#jfmfs-max-selected-wrapper").html( message );
+        }
         
     };
+    
+
     
     $.fn.jfmfs = function(options) {
         return this.each(function() {
