@@ -62,16 +62,12 @@
             
             $.each(sortedFriendData, function(i, friend) {
                 buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
-                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
-                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
-                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
-                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
             });
             friend_container.append(buffer.join(""));
             
             uninitializedImagefriendElements = $(".jfmfs-friend", elem);            
             uninitializedImagefriendElements.bind('inview', function (event, visible) {
-                if( $(this).attr('src') == undefined) {
+                if( $(this).attr('src') === undefined) {
                     $("img", $(this)).attr("src", "//graph.facebook.com/" + this.id + "/picture");
                 }
                 $(this).unbind('inview');
@@ -98,7 +94,7 @@
             $.each(elem.find(".jfmfs-friend.selected"), function(i, friend) {
                 selected.push( {id: $(friend).attr("id"), name: $(friend).find(".friend-name").text()});
             });
-            return selected
+            return selected;
         };
         
         this.clearSelected = function () {
@@ -133,12 +129,14 @@
                 if(!$(this).hasClass("selected") && 
                     maxSelectedEnabled() &&
                     $(".jfmfs-friend.selected").size() >= settings.max_selected &&
-                    settings.max_selected != 1)
-                    return;
+                    settings.max_selected != 1) {
+                        return;
+                    }
                     
                 // if the max is 1 then unselect the current and select the new    
-                if(settings.max_selected == 1)
-                    elem.find(".selected").removeClass("selected");
+                if(settings.max_selected == 1) {
+                    elem.find(".selected").removeClass("selected");                    
+                }
                     
                 $(this).toggleClass("selected");
                 $(this).removeClass("hover");
@@ -156,9 +154,11 @@
                             var start = Math.min(selIndex,lastIndex);
                             for(var i=start; i<=end; i++) {
                                 var aFriend = $( all_friends[i] );
-                                if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered"))
-                                    if( maxSelectedEnabled() && $(".jfmfs-friend.selected").size() < settings.max_selected )
-                                        $( all_friends[i] ).addClass("selected");
+                                if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered")) {
+                                    if( maxSelectedEnabled() && $(".jfmfs-friend.selected").size() < settings.max_selected ) {
+                                        $( all_friends[i] ).addClass("selected");                                        
+                                    }
+                                }
                             }
                         }
                     }
@@ -219,12 +219,14 @@
                     }, 400);
                 })
                 .focus( function() {
-                    if($.trim($(this).val()) == 'Start typing a name')
+                    if($.trim($(this).val()) == 'Start typing a name') {
                         $(this).val('');
+                    }
                     })
                 .blur(function() {
-                    if($.trim($(this).val()) == '')
-                        $(this).val('Start typing a name');                        
+                    if($.trim($(this).val()) == '') {
+                        $(this).val('Start typing a name');
+                    }                        
                     });
 
             // hover states on the buttons        
@@ -260,7 +262,7 @@
                 
                 $.each(uninitializedImagefriendElements, function(i, $el){
                     elementVisitedCount++;
-                    if($el != null) {
+                    if($el !== null) {
                         $el = $( uninitializedImagefriendElements[i] );
                         top = (firstElementOffset + (friendElementHeight * Math.ceil(elementVisitedCount/friendsPerRow))) - scrolltop - containerOffset; 
                         if (top+friendElementHeight >= -10 && top-friendElementHeight < vpH) {  // give some extra padding for broser differences
@@ -268,7 +270,7 @@
                                 $el.trigger('inview', [ true ]);
                                 foundVisible = true;
                                 uninitializedImagefriendElements[i] = null; 
-                                revealedOnPass++
+                                revealedOnPass++;
                         } 
                         else {                            
                             //if(foundVisible) return false;
@@ -287,16 +289,16 @@
 
         var selectedCount = function() {
             return $(".jfmfs-friend.selected").size();
-        }
+        };
 
         var maxSelectedEnabled = function () {
             return settings.max_selected > 0;
-        }
+        };
         
         var updateMaxSelectedMessage = function() {
-            var message = settings.max_selected_message.replace("{0}", selectedCount()).replace("{1}", settings.max_selected)
+            var message = settings.max_selected_message.replace("{0}", selectedCount()).replace("{1}", settings.max_selected);
             $("#jfmfs-max-selected-wrapper").html( message );
-        }
+        };
         
     };
     
@@ -307,7 +309,7 @@
             var element = $(this);
             
             // Return early if this element already has a plugin instance
-            if (element.data('jfmfs')) return;
+            if (element.data('jfmfs')) { return; }
             
             // pass options to plugin constructor
             var jfmfs = new JFMFS(this, options);
@@ -320,18 +322,20 @@
     
     // todo, make this more ambiguous
     jQuery.expr[':'].Contains = function(a, i, m) { 
-      return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0; 
+        return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0; 
     };
         
 
 })(jQuery);
 
-/*
- * jQuery throttle / debounce - v1.1 - 3/7/2010
- * http://benalman.com/projects/jquery-throttle-debounce-plugin/
- * 
- * Copyright (c) 2010 "Cowboy" Ben Alman
- * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
- */
-(function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);
+if($.debounce === undefined) {
+    /*
+     * jQuery throttle / debounce - v1.1 - 3/7/2010
+     * http://benalman.com/projects/jquery-throttle-debounce-plugin/
+     * 
+     * Copyright (c) 2010 "Cowboy" Ben Alman
+     * Dual licensed under the MIT and GPL licenses.
+     * http://benalman.com/about/license/
+     */
+    (function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);
+}
