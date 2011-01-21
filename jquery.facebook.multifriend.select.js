@@ -19,7 +19,9 @@
         var elem = $(element),
             obj = this,
             uninitializedImagefriendElements = [], // for images that are initialized
-            keyUpTimer;
+            keyUpTimer,
+            friendsPerRow = 0,
+            friendElementHeight;
             
         var settings = $.extend({
             max_selected: -1,
@@ -59,6 +61,10 @@
             var buffer = [];
             
             $.each(sortedFriendData, function(i, friend) {
+                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
+                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
+                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
+                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
                 buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
             });
             friend_container.append(buffer.join(""));
@@ -105,6 +111,19 @@
         
         var init = function() {
             all_friends = $(".jfmfs-friend", elem);
+            
+            // calculate friends per row
+            var firstElementOffset = all_friends.first().offset().top;
+            for(var i=0, l=all_friends.length; i < l; i++ ) {
+                if($(all_friends[i]).offset().top === firstElementOffset) {
+                    friendsPerRow++;
+                } else {
+                    friendElementHeight = $(all_friends[i]).offset().top - firstElementOffset;
+                    break;
+                }
+            }
+            console.log("friendsPerRow = " + friendsPerRow);
+            console.log("friendElementHeight = " + friendElementHeight);
             
             // handle when a friend is clicked for selection
             elem.delegate(".jfmfs-friend", 'click', function(event) {
@@ -229,32 +248,37 @@
             };
             
             var showImagesInViewPort = function() {
+                var s = Date.now();
                 var vpH = friend_container.innerHeight() ,
                     scrolltop = friend_container.scrollTop(),
-                    filter = $("#jfmfs-friend-filter-text", elem).val();
+                    filter = $("#jfmfs-friend-filter-text", elem).val(),
+                    containerOffset = friend_container.offset().top,
+                    $el, top, startingElementOffset,
+                    elementVisitedCount = 0,
+                    foundVisible = false,
+                    revealedOnPass=0;
                 
-                var foundVisible = false;
                 $.each(uninitializedImagefriendElements, function(i, $el){
+                    elementVisitedCount++;
                     if($el != null) {
-                        var $el = $( uninitializedImagefriendElements[i] ),
-                            top = $el.offset().top - $el.parent().offset().top,                        
-                            height = $el.height();
-                        if (top+height >= -10 && top-height < vpH) {  // give some extra padding for broser differences
+                        $el = $( uninitializedImagefriendElements[i] );
+                        top = (firstElementOffset + (friendElementHeight * Math.ceil(elementVisitedCount/friendsPerRow))) - scrolltop - containerOffset; 
+                        if (top+friendElementHeight >= -10 && top-friendElementHeight < vpH) {  // give some extra padding for broser differences
                                 $el.data('inview', true);
                                 $el.trigger('inview', [ true ]);
                                 foundVisible = true;
                                 uninitializedImagefriendElements[i] = null; 
+                                revealedOnPass++
                         } 
-                        else {
-                            if(foundVisible) return false;
+                        else {                            
+                            //if(foundVisible) return false;
                         }                            
                     }              
                 });
+                console.log(Date.now() - s + " and revealed " + revealedOnPass + " items visited " + elementVisitedCount);
             };
 
-            friend_container.bind('scroll', function () {
-                showImagesInViewPort();
-            });
+            friend_container.bind('scroll', $.debounce( 250, showImagesInViewPort ));
 
             updateMaxSelectedMessage();                      
             settings.init_callback();
@@ -301,3 +325,13 @@
         
 
 })(jQuery);
+
+/*
+ * jQuery throttle / debounce - v1.1 - 3/7/2010
+ * http://benalman.com/projects/jquery-throttle-debounce-plugin/
+ * 
+ * Copyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ */
+(function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);
