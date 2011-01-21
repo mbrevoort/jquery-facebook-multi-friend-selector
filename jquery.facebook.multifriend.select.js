@@ -19,8 +19,7 @@
         var elem = $(element),
             obj = this,
             uninitializedImagefriendElements = [], // for images that are initialized
-            keyUpTimer,
-            friend_container = ;
+            keyUpTimer;
             
         var settings = $.extend({
             max_selected: -1,
@@ -45,6 +44,10 @@
             "    <div id='jfmfs-friend-container'></div>" +
             "</div>" 
         );
+        
+        var friend_container = $("#jfmfs-friend-container"),
+            container = $("#jfmfs-friend-selector"),
+            all_friends;
             
         FB.api('/me/friends?fields=id,name', function(response) {
             var sortedFriendData = response.data.sort(function(a, b) {
@@ -53,19 +56,21 @@
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
             });
             
-            
+            var buffer = [];
             
             $.each(sortedFriendData, function(i, friend) {
-                $("#jfmfs-friend-container").append("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");
-            
-                $("#" + friend.id, elem).bind('inview', function (event, visible) {
-                    if( $(this).attr('src') == undefined)
-                        $("img", $(this)).attr("src", "//graph.facebook.com/" + friend.id + "/picture");
-                });
-            
+                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
             });
+            friend_container.append(buffer.join(""));
             
             uninitializedImagefriendElements = $(".jfmfs-friend", elem);            
+            uninitializedImagefriendElements.bind('inview', function (event, visible) {
+                if( $(this).attr('src') == undefined) {
+                    $("img", $(this)).attr("src", "//graph.facebook.com/" + this.id + "/picture");
+                }
+                $(this).unbind('inview');
+            });
+
             init();
         });
         
@@ -91,7 +96,7 @@
         };
         
         this.clearSelected = function () {
-            $(".jfmfs-friend").removeClass("selected");
+            all_friends.removeClass("selected");
         };
         
         // ----------+----------+----------+----------+----------+----------+----------+
@@ -99,8 +104,10 @@
         // ----------+----------+----------+----------+----------+----------+----------+
         
         var init = function() {
+            all_friends = $(".jfmfs-friend", elem);
+            
             // handle when a friend is clicked for selection
-            elem.find(".jfmfs-friend").live('click', function(event) {
+            elem.delegate(".jfmfs-friend", 'click', function(event) {
                 
                 // if the element is being selected, test if the max number of items have
                 // already been selected, if so, just return
@@ -129,10 +136,10 @@
                             var end = Math.max(selIndex,lastIndex);
                             var start = Math.min(selIndex,lastIndex);
                             for(var i=start; i<=end; i++) {
-                                var aFriend = $( $(".jfmfs-friend")[i] );
+                                var aFriend = $( all_friends[i] );
                                 if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered"))
                                     if( maxSelectedEnabled() && $(".jfmfs-friend.selected").size() < settings.max_selected )
-                                        $( $(".jfmfs-friend")[i] ).addClass("selected");
+                                        $( all_friends[i] ).addClass("selected");
                             }
                         }
                     }
@@ -152,15 +159,15 @@
             });
 
             // filter by selected, hide all non-selected
-            elem.find("#jfmfs-filter-selected").live('click', function() {
-                $(".jfmfs-friend").not(".selected").addClass("hide-non-selected");
+            $("#jfmfs-filter-selected").click(function() {
+                all_friends.not(".selected").addClass("hide-non-selected");
                 $(".filter-link").removeClass("selected");
                 $(this).addClass("selected");
             });
 
             // remove filter, show all
-            elem.find("#jfmfs-filter-all").live('click', function() {
-                $(".jfmfs-friend").removeClass("hide-non-selected");
+            $("#jfmfs-filter-all").click(function() {
+                all_friends.removeClass("hide-non-selected");
                 $(".filter-link").removeClass("selected");
                 $(this).addClass("selected");
             });
@@ -183,11 +190,11 @@
                     clearTimeout(keyUpTimer);
                     keyUpTimer = setTimeout( function() {
                         if(filter == '') {
-                            $(".jfmfs-friend").removeClass("hide-filtered");
+                            all_friends.removeClass("hide-filtered");
                         }
                         else {
-                            $("#jfmfs-friend-selector").find(".friend-name:not(:Contains(" + filter +"))").parent().addClass("hide-filtered");
-                            $("#jfmfs-friend-selector").find(".friend-name:Contains(" + filter +")").parent().removeClass("hide-filtered");                         
+                            container.find(".friend-name:not(:Contains(" + filter +"))").parent().addClass("hide-filtered");
+                            container.find(".friend-name:Contains(" + filter +")").parent().removeClass("hide-filtered");                         
                         }    
                         showImagesInViewPort();                        
                     }, 400);
@@ -222,8 +229,8 @@
             };
             
             var showImagesInViewPort = function() {
-                var vpH = $("#jfmfs-friend-container").innerHeight() ,
-                    scrolltop = $("#jfmfs-friend-container").scrollTop(),
+                var vpH = friend_container.innerHeight() ,
+                    scrolltop = friend_container.scrollTop(),
                     filter = $("#jfmfs-friend-filter-text", elem).val();
                 
                 var foundVisible = false;
@@ -245,15 +252,13 @@
                 });
             };
 
-            $("#jfmfs-friend-container").bind('scroll', function () {
+            friend_container.bind('scroll', function () {
                 showImagesInViewPort();
             });
 
             updateMaxSelectedMessage();                      
             settings.init_callback();
-            // there's a race condition with the colorbox and the images actually
-            // being in the viewport, so just set a timer 
-            setTimeout(showImagesInViewPort, 1000);
+            showImagesInViewPort();
         };
 
         var selectedCount = function() {
