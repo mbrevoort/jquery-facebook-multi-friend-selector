@@ -1,0 +1,78 @@
+
+<html> 
+    <head> 
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
+        <script type="text/javascript" src="jquery.facebook.multifriend.select.js"></script> 
+        <link rel="stylesheet" href="jquery.facebook.multifriend.select.css" /> 
+        <style> 
+            body {
+                background: #fff;
+                color: #333;
+                font: 11px verdana, arial, helvetica, sans-serif;
+            }
+            a:link, a:visited, a:hover {
+                color: #666;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        </style> 
+    </head> 
+    <body> 
+ 
+        <div id="pageBody"> 
+            <div id="fb-root"></div> 
+            <script src="http://connect.facebook.net/en_US/all.js"></script> 
+            <script> 
+                FB.init({appId: '194478650562619', cookie: true});
+ 
+                FB.getLoginStatus(function(response) {
+                    if (response.session) {
+                      init();
+                    } else {
+                      // no user session available, someone you dont know
+                    }
+                });
+ 
+ 
+                function login() {
+                    FB.login(function(response) {
+                        if (response.session) {
+                            init();
+                        } else {
+                            alert('Login Failed!');
+                        }
+                    });
+                }
+ 
+                function init() {
+                  FB.api('/me', function(response) {
+                      $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
+                      $("#jfmfs-container").jfmfs({ max_selected: 15, max_selected_message: "{0} of {1} selected"});
+                      $("#logged-out-status").hide();
+                      $("#show-friends").show();
+  
+                  });
+                }              
+ 
+ 
+                $("#show-friends").live("click", function() {
+                    var friendSelector = $("#jfmfs-container").data('jfmfs');             
+                    $("#selected-friends").html(friendSelector.getSelectedIds().join(', ')); 
+                });                  
+ 
+ 
+              </script> 
+              
+              <div id="logged-out-status" style=""> 
+                  <a href="javascript:login()">Login</a> 
+              </div> 
+ 
+              <div> 
+                  <div id="username"></div> 
+                  <a href="#" id="show-friends" style="display:none;">Show Selected Friends</a> 
+                  <div id="selected-friends" style="height:30px"></div> 
+                  <div id="jfmfs-container"></div> 
+              </div> 
+        </div> 
+    </body> 
+</html> 
