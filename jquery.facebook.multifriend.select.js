@@ -25,9 +25,7 @@
             
         var settings = $.extend({
             max_selected: -1,
-            max_selected_message: "{0} of {1} selected",
-            init_callback: function() {},
-            onchange_callback: function(selectedIds) {}
+            max_selected_message: "{0} of {1} selected"
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
@@ -118,8 +116,6 @@
                     break;
                 }
             }
-            console.log("friendsPerRow = " + friendsPerRow);
-            console.log("friendElementHeight = " + friendElementHeight);
             
             // handle when a friend is clicked for selection
             elem.delegate(".jfmfs-friend", 'click', function(event) {
@@ -173,8 +169,7 @@
                 if( maxSelectedEnabled() ) {
                     updateMaxSelectedMessage();
                 }
-                
-                settings.onchange_callback( obj.getSelectedIdsAndNames() );
+                elem.trigger("jfmfs.selection.changed", [obj.getSelectedIdsAndNames()]);
             });
 
             // filter by selected, hide all non-selected
@@ -277,14 +272,13 @@
                         }                            
                     }              
                 });
-                console.log(Date.now() - s + " and revealed " + revealedOnPass + " items visited " + elementVisitedCount);
             };
 
             friend_container.bind('scroll', $.debounce( 250, showImagesInViewPort ));
 
             updateMaxSelectedMessage();                      
-            settings.init_callback();
             showImagesInViewPort();
+            elem.trigger("jfmfs.friendload.finished");
         };
 
         var selectedCount = function() {
