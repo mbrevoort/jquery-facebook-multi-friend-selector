@@ -1,12 +1,15 @@
-Version v2 (yeah, not 0.0.0.2)  
+# Version v2 (yeah, not 0.0.0.2)  
 1/21/2011:
+
 * Added some performance optimizations especially with a large number of friends
+
 * Custom events for notification when friends are loaded or selections change
+
 * Progressive image loading when scrolling including the usage of Ben Alman's awesome throttle/debounce library for smoother scrolling
 
 Plan to make some more enhancements are refactor code for to better enable unit tests
 
-------------------------------------------------------------------------------
+# Version v1, etc
 
 This is an client side alternative to the Facebook Multi-Friend Selector that 
 relies on jQuery. No server side component necessary which makes it really
