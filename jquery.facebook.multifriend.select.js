@@ -20,8 +20,9 @@
             obj = this,
             uninitializedImagefriendElements = [], // for images that are initialized
             keyUpTimer,
-            friendsPerRow = 0,
-            friendElementHeight;
+            friends_per_row = 0,
+            friend_height_px,
+            first_element_offset_px;
             
         var settings = $.extend({
             max_selected: -1,
@@ -107,12 +108,12 @@
             all_friends = $(".jfmfs-friend", elem);
             
             // calculate friends per row
-            var firstElementOffset = all_friends.first().offset().top;
+            first_element_offset_px = all_friends.first().offset().top;
             for(var i=0, l=all_friends.length; i < l; i++ ) {
-                if($(all_friends[i]).offset().top === firstElementOffset) {
-                    friendsPerRow++;
+                if($(all_friends[i]).offset().top === first_element_offset_px) {
+                    friends_per_row++;
                 } else {
-                    friendElementHeight = $(all_friends[i]).offset().top - firstElementOffset;
+                    friend_height_px = $(all_friends[i]).offset().top - first_element_offset_px;
                     break;
                 }
             }
@@ -245,30 +246,29 @@
             };
             
             var showImagesInViewPort = function() {
-                var s = Date.now();
-                var vpH = friend_container.innerHeight() ,
-                    scrolltop = friend_container.scrollTop(),
-                    filter = $("#jfmfs-friend-filter-text", elem).val(),
-                    containerOffset = friend_container.offset().top,
-                    $el, top, startingElementOffset,
+                var conteiner_height_px = friend_container.innerHeight(),
+                    scroll_top_px = friend_container.scrollTop(),
+                    container_offset_px = friend_container.offset().top,
+                    $el, top_px,
                     elementVisitedCount = 0,
-                    foundVisible = false,
-                    revealedOnPass=0;
+                    foundVisible = false;
                 
                 $.each(uninitializedImagefriendElements, function(i, $el){
                     elementVisitedCount++;
                     if($el !== null) {
                         $el = $( uninitializedImagefriendElements[i] );
-                        top = (firstElementOffset + (friendElementHeight * Math.ceil(elementVisitedCount/friendsPerRow))) - scrolltop - containerOffset; 
-                        if (top+friendElementHeight >= -10 && top-friendElementHeight < vpH) {  // give some extra padding for broser differences
+                        top_px = (first_element_offset_px + (friend_height_px * Math.ceil(elementVisitedCount/friends_per_row))) - scroll_top_px - container_offset_px; 
+                        if (top_px + friend_height_px >= -10 && 
+                            top_px - friend_height_px < conteiner_height_px) {  // give some extra padding for broser differences
                                 $el.data('inview', true);
                                 $el.trigger('inview', [ true ]);
                                 foundVisible = true;
                                 uninitializedImagefriendElements[i] = null; 
-                                revealedOnPass++;
                         } 
                         else {                            
-                            //if(foundVisible) return false;
+                            if(foundVisible) {
+                                return false;
+                            }
                         }                            
                     }              
                 });
