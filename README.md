@@ -1,4 +1,5 @@
-Updated 1/21/2011:
+Version v2 (yeah, not 0.0.0.2)  
+1/21/2011:
 * Added some performance optimizations especially with a large number of friends
 * Custom events for notification when friends are loaded or selections change
 * Progressive image loading when scrolling including the usage of Ben Alman's awesome throttle/debounce library for smoother scrolling
