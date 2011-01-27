@@ -30,6 +30,7 @@ limitations under the License.
     margin:3px;
     padding:2px;
     width:180px;
+	overflow: hidden;
     border: 1px solid #FFFFFF;
     -moz-border-radius: 5px; 
     -webkit-border-radius: 5px;
@@ -40,6 +41,7 @@ limitations under the License.
     float:left;
     margin:0;
     width:20px;
+	height:20px;
 }
 
 .jfmfs-friend.selected img {
