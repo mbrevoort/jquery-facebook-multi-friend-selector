@@ -15,14 +15,14 @@ This is an client side alternative to the Facebook Multi-Friend Selector that
 relies on jQuery. No server side component necessary which makes it really
 easy to adapt and use. 
 
-Check out this blog post with more details and screencast: http://bit.ly/cHDkzm
+Check out this blog post with more details and [screencast](http://bit.ly/cHDkzm)
 
 To see a demo go here:
 http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/#
 Click login and login to your facebook account and you should see the friend selector.
 
 Much can be customized by CSS, for example if you want a stacked list type selector that's more stripped down:
-http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/list.html
+(http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/list.html)
 
 This plugin is depends on the new Facebook Javascript API
 > <script src="http://connect.facebook.net/en_US/all.js"></script>
