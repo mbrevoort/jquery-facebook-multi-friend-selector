@@ -58,12 +58,15 @@ These options can be passed into the jfmfs function with a map of options like j
 			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 		}
 
-For example your options might look like this if you want a max of 3 friends selected and to sort by friends' last name:
+* pre_selected_friends: an array of ids of friends to preselect once loaded like: pre_selected_friends: [1014025367]
+
+For example your options might look like this if you want a max of 3 friends selected, friends 11111111 and 22222222 preselected and to sort by friends' last name:
 
 		{
 		    max_selected: 3,
 		    max_selected_message: "{0} of {1} sucker selected",
 			friend_fields: "id,name,last_name",
+			pre_selected_friends: [11111111, 22222222],
 			sorter: function(a, b) {
 		        var x = a.last_name.toLowerCase();
 		        var y = b.last_name.toLowerCase();

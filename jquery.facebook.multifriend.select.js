@@ -27,6 +27,7 @@
         var settings = $.extend({
             max_selected: -1,
             max_selected_message: "{0} of {1} selected",
+			pre_selected_friends: [],
 			friend_fields: "id,name",
 			sorter: function(a, b) {
                 var x = a.name.toLowerCase();
@@ -36,7 +37,14 @@
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
-        
+        var buildPreselectedFriendsGraph = function(friendIdArray) {
+			  var o = {};
+			  for(var i=0, l=friendIdArray.length; i<l; i++){
+			    o[friendIdArray[i]]='';
+			  }
+			  return o;
+		}
+		
         // ----------+----------+----------+----------+----------+----------+----------+
         // Initialization of container
         // ----------+----------+----------+----------+----------+----------+----------+
@@ -54,15 +62,18 @@
         
         var friend_container = $("#jfmfs-friend-container"),
             container = $("#jfmfs-friend-selector"),
+			preselected_friends_graph = buildPreselectedFriendsGraph(settings.pre_selected_friends),
             all_friends;
             
         FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
             var sortedFriendData = response.data.sort(settings.sorter);
-            
-            var buffer = [];
+            var preselectedFriends = {}
+            var buffer = []
+				selectedClass = "";
             
             $.each(sortedFriendData, function(i, friend) {
-                buffer.push("<div class='jfmfs-friend' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
+				selectedClass = (friend.id in preselected_friends_graph) ? "selected" : "";
+                buffer.push("<div class='jfmfs-friend " + selectedClass + " ' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
             });
             friend_container.append(buffer.join(""));
             
@@ -167,8 +178,8 @@
                 lastSelected = $(this);
                 
                 // update the count of the total number selected
-                $("#jfmfs-selected-count").html( selectedCount() );
-                
+                updateSelectedCount();
+
                 if( maxSelectedEnabled() ) {
                     updateMaxSelectedMessage();
                 }
@@ -278,10 +289,15 @@
                 });
             };
 
+			var updateSelectedCount = function() {
+				$("#jfmfs-selected-count").html( selectedCount() );
+			};
+
             friend_container.bind('scroll', $.debounce( 250, showImagesInViewPort ));
 
             updateMaxSelectedMessage();                      
             showImagesInViewPort();
+			updateSelectedCount();
             elem.trigger("jfmfs.friendload.finished");
         };
 
