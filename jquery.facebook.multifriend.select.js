@@ -26,7 +26,13 @@
             
         var settings = $.extend({
             max_selected: -1,
-            max_selected_message: "{0} of {1} selected"
+            max_selected_message: "{0} of {1} selected",
+			friend_fields: "id,name",
+			sorter: function(a, b) {
+                var x = a.name.toLowerCase();
+                var y = b.name.toLowerCase();
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            }
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
@@ -50,12 +56,8 @@
             container = $("#jfmfs-friend-selector"),
             all_friends;
             
-        FB.api('/me/friends?fields=id,name', function(response) {
-            var sortedFriendData = response.data.sort(function(a, b) {
-                var x = a.name.toLowerCase();
-                var y = b.name.toLowerCase();
-                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-            });
+        FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
+            var sortedFriendData = response.data.sort(settings.sorter);
             
             var buffer = [];
             
@@ -174,14 +176,16 @@
             });
 
             // filter by selected, hide all non-selected
-            $("#jfmfs-filter-selected").click(function() {
+            $("#jfmfs-filter-selected").click(function(event) {
+				event.preventDefault();
                 all_friends.not(".selected").addClass("hide-non-selected");
                 $(".filter-link").removeClass("selected");
                 $(this).addClass("selected");
             });
 
             // remove filter, show all
-            $("#jfmfs-filter-all").click(function() {
+            $("#jfmfs-filter-all").click(function(event) {
+				event.preventDefault();
                 all_friends.removeClass("hide-non-selected");
                 $(".filter-link").removeClass("selected");
                 $(this).addClass("selected");

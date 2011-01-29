@@ -47,7 +47,19 @@
                 function init() {
                   FB.api('/me', function(response) {
                       $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
-                      $("#jfmfs-container").jfmfs({ max_selected: 15, max_selected_message: "{0} of {1} selected"});
+
+
+					
+                      $("#jfmfs-container").jfmfs({ 
+					      max_selected: 15, 
+						  max_selected_message: "{0} of {1} selected",
+						  friend_fields: "id,name,last_name",
+						  sorter: function(a, b) {
+			                var x = a.last_name.toLowerCase();
+			                var y = b.last_name.toLowerCase();
+			                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+						  }
+			          });
                       $("#jfmfs-container").bind("jfmfs.friendload.finished", function() { 
                           console.log("finished loading!"); 
                       });

@@ -34,6 +34,8 @@ limitations under the License.
     border: 1px solid #FFFFFF;
     -moz-border-radius: 5px; 
     -webkit-border-radius: 5px;
+	-webkit-user-select:none;
+	-moz-user-select:none;
 }
 
 .jfmfs-friend img {

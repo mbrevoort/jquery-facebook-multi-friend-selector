@@ -47,8 +47,29 @@ Options
 -------
 These options can be passed into the jfmfs function with a map of options like jfmfs({key1: val, key2: val})
 
-max_selected: int (optional)- max number of items that can be selected
-max_selected_message: String (optional, but required if max_selected specified) - message to display showing how many items are already selected like: "{0} of {1} chosen"}
+* max_selected: int (optional)- max number of items that can be selected
+* max_selected_message: String (optional, but required if max_selected specified) - message to display showing how many items are already selected like: "{0} of {1} chosen"}
+* friend_fields: a comma separated list of fields to return in case you need additional fields for sorting. However you should always at least specify: "id,name",
+* sorter: a function reference that will be called to do the sorting. It takes two arguments which are the two friend objects to be compared and returns "truthy if the first should come before the second. The default is:
+
+		function(a, b) {
+			var x = a.name.toLowerCase();
+			var y = b.name.toLowerCase();
+			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		}
+
+For example your options might look like this if you want a max of 3 friends selected and to sort by friends' last name:
+
+		{
+		    max_selected: 3,
+		    max_selected_message: "{0} of {1} sucker selected",
+			friend_fields: "id,name,last_name",
+			sorter: function(a, b) {
+		        var x = a.last_name.toLowerCase();
+		        var y = b.last_name.toLowerCase();
+		        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		    }
+		}
 
 Events
 ------
