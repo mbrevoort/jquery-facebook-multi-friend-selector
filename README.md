@@ -85,13 +85,13 @@ Events
 ------
 jfmfs.friendload.finished - triggered on the container when the list of friends is finished loading
 
-> $("#jfmfs-container").bind("jfmfs.friendload.finished", function() { 
->     alert("finished loaded!"); 
-> });
+		$("#jfmfs-container").bind("jfmfs.friendload.finished", function() { 
+		    alert("finished loaded!"); 
+		});
 
 jfmfs.selection.changed - triggered on the container when a selection has changed with an array of selected friends each like { id: "123", name: "John Doe"}
 
-> $("#jfmfs-container").bind("jfmfs.selection.changed", function(e, data) { 
->     console.log("changed", data);
-> });                     
+		$("#jfmfs-container").bind("jfmfs.selection.changed", function(e, data) { 
+		    console.log("changed", data);
+		});                     
 
