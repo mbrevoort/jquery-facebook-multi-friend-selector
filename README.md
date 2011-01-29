@@ -3,7 +3,9 @@
 
 * Added customizable sorter option (see details in options section)
 
-* Added pre_selected_friends options (see details in options section)
+* Added pre_selected_friends option (see details in options section)
+
+* Added exclude_friends option (see details in options section)
 
 # Version v2 (yeah, not 0.0.0.2)  
 1/21/2011:
@@ -67,13 +69,16 @@ These options can be passed into the jfmfs function with a map of options like j
 
 * pre_selected_friends: an array of ids of friends to preselect once loaded like: pre_selected_friends: [1014025367]
 
-For example your options might look like this if you want a max of 3 friends selected, friends 11111111 and 22222222 preselected and to sort by friends' last name:
+* exclude_friends: an array of ids of friends to exclude from the list like: exclude_friends: [33333333]
+
+For example your options might look like this if you want a max of 3 friends selected, friends 11111111 and 22222222 preselected, friend 33333333 excluded from the list and to sort by friends' last name:
 
 		{
 		    max_selected: 3,
 		    max_selected_message: "{0} of {1} sucker selected",
 			friend_fields: "id,name,last_name",
 			pre_selected_friends: [11111111, 22222222],
+			exclude_friends: [33333333],
 			sorter: function(a, b) {
 		        var x = a.last_name.toLowerCase();
 		        var y = b.last_name.toLowerCase();

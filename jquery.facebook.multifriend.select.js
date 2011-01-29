@@ -28,6 +28,7 @@
             max_selected: -1,
             max_selected_message: "{0} of {1} selected",
 			pre_selected_friends: [],
+			exclude_friends: [],
 			friend_fields: "id,name",
 			sorter: function(a, b) {
                 var x = a.name.toLowerCase();
@@ -37,10 +38,10 @@
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
-        var buildPreselectedFriendsGraph = function(friendIdArray) {
+        var arrayToObjectGraph = function(a) {
 			  var o = {};
-			  for(var i=0, l=friendIdArray.length; i<l; i++){
-			    o[friendIdArray[i]]='';
+			  for(var i=0, l=a.length; i<l; i++){
+			    o[a[i]]='';
 			  }
 			  return o;
 		}
@@ -62,7 +63,8 @@
         
         var friend_container = $("#jfmfs-friend-container"),
             container = $("#jfmfs-friend-selector"),
-			preselected_friends_graph = buildPreselectedFriendsGraph(settings.pre_selected_friends),
+			preselected_friends_graph = arrayToObjectGraph(settings.pre_selected_friends),
+			excluded_friends_graph = arrayToObjectGraph(settings.exclude_friends),
             all_friends;
             
         FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
@@ -72,8 +74,10 @@
 				selectedClass = "";
             
             $.each(sortedFriendData, function(i, friend) {
-				selectedClass = (friend.id in preselected_friends_graph) ? "selected" : "";
-                buffer.push("<div class='jfmfs-friend " + selectedClass + " ' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
+				if(! (friend.id in excluded_friends_graph)) {
+					selectedClass = (friend.id in preselected_friends_graph) ? "selected" : "";
+	                buffer.push("<div class='jfmfs-friend " + selectedClass + " ' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
+				}
             });
             friend_container.append(buffer.join(""));
             
