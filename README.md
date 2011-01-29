@@ -1,3 +1,10 @@
+# Version v3 
+1/28/2011:
+
+* Added customizable sorter option (see details in options section)
+
+* Added pre_selected_friends options (see details in options section)
+
 # Version v2 (yeah, not 0.0.0.2)  
 1/21/2011:
 
