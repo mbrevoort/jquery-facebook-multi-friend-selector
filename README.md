@@ -1,25 +1,3 @@
-# Version v3 
-1/28/2011:
-
-* Added customizable sorter option (see details in options section)
-
-* Added pre_selected_friends option (see details in options section)
-
-* Added exclude_friends option (see details in options section)
-
-# Version v2 (yeah, not 0.0.0.2)  
-1/21/2011:
-
-* Added some performance optimizations especially with a large number of friends
-
-* Custom events for notification when friends are loaded or selections change
-
-* Progressive image loading when scrolling including the usage of Ben Alman's awesome throttle/debounce library for smoother scrolling
-
-Plan to make some more enhancements are refactor code for to better enable unit tests
-
-# Version v1, etc
-
 This is an client side alternative to the Facebook Multi-Friend Selector that 
 relies on jQuery. No server side component necessary which makes it really
 easy to adapt and use. 
@@ -109,4 +87,39 @@ jfmfs.selection.changed - triggered on the container when a selection has change
 		$("#jfmfs-container").bind("jfmfs.selection.changed", function(e, data) { 
 		    console.log("changed", data);
 		});                     
+
+Changelog
+=========
+
+# Version v4
+2/5/2011:
+
+* Fixed issue with images not loading when list is filtered 
+
+* Added i18n label object option to override default text
+
+* Fixed bug when there was only one row of friends
+
+* Added minified version [5.37KB (2.06KB gzipped)]
+
+# Version v3 
+1/28/2011:
+
+* Added customizable sorter option (see details in options section)
+
+* Added pre_selected_friends option (see details in options section)
+
+* Added exclude_friends option (see details in options section)
+
+# Version v2 (yeah, not 0.0.0.2)  
+1/21/2011:
+
+* Added some performance optimizations especially with a large number of friends
+
+* Custom events for notification when friends are loaded or selections change
+
+* Progressive image loading when scrolling including the usage of Ben Alman's awesome throttle/debounce library for smoother scrolling
+
+Plan to make some more enhancements are refactor code for to better enable unit tests
+
 
