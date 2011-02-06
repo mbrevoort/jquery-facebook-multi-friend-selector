@@ -23,8 +23,8 @@ You can load the friend selector in a container like this:
 
 This should fetch the current users friends and give you the interface to select friends. Then when you're ready to move on, there's a function to call that returns an array of the Facebook Ids of the selected friends. 
 
-var friendSelector  = $("#jfmfs-container").data('jfmfs');
-var selectedFriends = friendSelector.getSelectedIds();
+> var friendSelector  = $("#jfmfs-container").data('jfmfs');
+> var selectedFriends = friendSelector.getSelectedIds();
 
 Options
 -------
