@@ -9,22 +9,25 @@ How to use it
 -------------
 
 This plugin is depends on the Facebook Javascript API so you have to include it:
-> <script src="http://connect.facebook.net/en_US/all.js"></script>
+
+		<script src="http://connect.facebook.net/en_US/all.js"></script>
 
 Include the plugin javascript file and CSS
 
 Assuming you have a container like:
-> <div id="jfmfs-container"></div>
+
+		<div id="jfmfs-container"></div>
 
 And you have included the Facebook Javascript API
 And you have already logged the user in. (FB.init and FB.login)
 You can load the friend selector in a container like this:
-> $("#jfmfs-container").jfmfs();
+
+		$("#jfmfs-container").jfmfs();
 
 This should fetch the current users friends and give you the interface to select friends. Then when you're ready to move on, there's a function to call that returns an array of the Facebook Ids of the selected friends. 
 
-> var friendSelector  = $("#jfmfs-container").data('jfmfs');
-> var selectedFriends = friendSelector.getSelectedIds();
+		var friendSelector  = $("#jfmfs-container").data('jfmfs');
+		var selectedFriends = friendSelector.getSelectedIds();
 
 Options
 -------
