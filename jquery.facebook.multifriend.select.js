@@ -265,24 +265,24 @@
             };
             
             var showImagesInViewPort = function() {
-                var conteiner_height_px = friend_container.innerHeight(),
+                var container_height_px = friend_container.innerHeight(),
                     scroll_top_px = friend_container.scrollTop(),
                     container_offset_px = friend_container.offset().top,
                     $el, top_px,
                     elementVisitedCount = 0,
-                    foundVisible = false;
-                
-                $.each(uninitializedImagefriendElements, function(i, $el){
+                    foundVisible = false,
+                	allVisibleFriends = $(".jfmfs-friend:not(.hide-filtered )");
+
+                $.each(allVisibleFriends, function(i, $el){
                     elementVisitedCount++;
                     if($el !== null) {
-                        $el = $( uninitializedImagefriendElements[i] );
+                        $el = $(allVisibleFriends[i]);
                         top_px = (first_element_offset_px + (friend_height_px * Math.ceil(elementVisitedCount/friends_per_row))) - scroll_top_px - container_offset_px; 
-                        if (top_px + friend_height_px >= -10 && 
-                            top_px - friend_height_px < conteiner_height_px) {  // give some extra padding for broser differences
+						if (top_px + friend_height_px >= -10 && 
+                            top_px - friend_height_px < container_height_px) {  // give some extra padding for broser differences
                                 $el.data('inview', true);
                                 $el.trigger('inview', [ true ]);
                                 foundVisible = true;
-                                uninitializedImagefriendElements[i] = null; 
                         } 
                         else {                            
                             if(foundVisible) {
