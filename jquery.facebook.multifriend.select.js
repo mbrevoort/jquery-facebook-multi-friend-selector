@@ -34,7 +34,14 @@
                 var x = a.name.toLowerCase();
                 var y = b.name.toLowerCase();
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-            }
+            },
+			labels: {
+				selected: "Selected",
+				filter_default: "Start typing a name",
+				filter_title: "Find Friends:",
+				all: "All",
+				max_selected_message: "{0} of {1} selected"
+			}
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
                 
@@ -52,9 +59,9 @@
         elem.html(
             "<div id='jfmfs-friend-selector'>" +
             "    <div id='jfmfs-inner-header'>" +
-            "        <span class='jfmfs-title'>Find Friends: </span><input type='text' id='jfmfs-friend-filter-text' value='Start typing a name'/>" +
-            "        <a class='filter-link selected' id='jfmfs-filter-all' href='#'>All</a>" +
-            "        <a class='filter-link' id='jfmfs-filter-selected' href='#'>Selected (<span id='jfmfs-selected-count'>0</span>)</a>" +
+            "        <span class='jfmfs-title'>" + settings.labels.filter_title + " </span><input type='text' id='jfmfs-friend-filter-text' value='" + settings.labels.filter_default + "'/>" +
+            "        <a class='filter-link selected' id='jfmfs-filter-all' href='#'>" + settings.labels.all + "</a>" +
+            "        <a class='filter-link' id='jfmfs-filter-selected' href='#'>" + settings.labels.selected + " (<span id='jfmfs-selected-count'>0</span>)</a>" +
             ((settings.max_selected > 0) ? "<div id='jfmfs-max-selected-wrapper'></div>" : "") +
             "    </div>" +
             "    <div id='jfmfs-friend-container'></div>" +
@@ -314,7 +321,7 @@
         };
         
         var updateMaxSelectedMessage = function() {
-            var message = settings.max_selected_message.replace("{0}", selectedCount()).replace("{1}", settings.max_selected);
+            var message = settings.labels.max_selected_message.replace("{0}", selectedCount()).replace("{1}", settings.max_selected);
             $("#jfmfs-max-selected-wrapper").html( message );
         };
         

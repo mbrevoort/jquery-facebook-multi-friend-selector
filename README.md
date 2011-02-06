@@ -57,7 +57,17 @@ Options
 These options can be passed into the jfmfs function with a map of options like jfmfs({key1: val, key2: val})
 
 * max_selected: int (optional)- max number of items that can be selected
-* max_selected_message: String (optional, but required if max_selected specified) - message to display showing how many items are already selected like: "{0} of {1} chosen"}
+* labels: object with i18n labels for translations. If you pass this, you need to define all of the labels.
+
+		labels: {
+			selected: "Selected",
+			filter_default: "Start typing a name",
+			filter_title: "Find Friends:",
+			all: "All",
+			max_selected_message: "{0} of {1} selected"
+			// message to display showing how many items are already selected like: "{0} of {1} chosen"
+		}
+
 * friend_fields: a comma separated list of fields to return in case you need additional fields for sorting. However you should always at least specify: "id,name",
 * sorter: a function reference that will be called to do the sorting. It takes two arguments which are the two friend objects to be compared and returns "truthy if the first should come before the second. The default is:
 
