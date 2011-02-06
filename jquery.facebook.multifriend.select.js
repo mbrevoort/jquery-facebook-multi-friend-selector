@@ -21,7 +21,7 @@
             uninitializedImagefriendElements = [], // for images that are initialized
             keyUpTimer,
             friends_per_row = 0,
-            friend_height_px,
+            friend_height_px = 0,
             first_element_offset_px;
             
         var settings = $.extend({
@@ -126,11 +126,11 @@
             
             // calculate friends per row
             first_element_offset_px = all_friends.first().offset().top;
-            friend_height_px = first_element_offset_px - first_element_offset_px;
             for(var i=0, l=all_friends.length; i < l; i++ ) {
                 if($(all_friends[i]).offset().top === first_element_offset_px) {
                     friends_per_row++;
                 } else {
+                    friend_height_px = $(all_friends[i]).offset().top - first_element_offset_px;
                     break;
                 }
             }
