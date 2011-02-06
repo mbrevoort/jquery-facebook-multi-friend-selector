@@ -21,7 +21,7 @@
             uninitializedImagefriendElements = [], // for images that are initialized
             keyUpTimer,
             friends_per_row = 0,
-            friend_height_px,
+            friend_height_px = 0,
             first_element_offset_px;
             
         var settings = $.extend({
@@ -51,7 +51,7 @@
 			    o[a[i]]='';
 			  }
 			  return o;
-		}
+		};
 		
         // ----------+----------+----------+----------+----------+----------+----------+
         // Initialization of container
@@ -75,10 +75,10 @@
             all_friends;
             
         FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
-            var sortedFriendData = response.data.sort(settings.sorter);
-            var preselectedFriends = {}
-            var buffer = []
-				selectedClass = "";
+            var sortedFriendData = response.data.sort(settings.sorter),
+                preselectedFriends = {},
+                buffer = [],
+			    selectedClass = "";
             
             $.each(sortedFriendData, function(i, friend) {
 				if(! (friend.id in excluded_friends_graph)) {
@@ -278,7 +278,7 @@
                     $el, top_px,
                     elementVisitedCount = 0,
                     foundVisible = false,
-                	allVisibleFriends = $(".jfmfs-friend:not(.hide-filtered )");
+                    allVisibleFriends = $(".jfmfs-friend:not(.hide-filtered )");
 
                 $.each(allVisibleFriends, function(i, $el){
                     elementVisitedCount++;
