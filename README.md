@@ -1,27 +1,23 @@
 This is an client side alternative to the Facebook Multi-Friend Selector that 
 relies on jQuery. No server side component necessary which makes it really
-easy to adapt and use. 
-
-Check out this blog post with more details and [screencast](http://bit.ly/cHDkzm).
-
-To see a demo go [here](http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/).
-
-Click login and login to your facebook account and you should see the friend selector.
+easy to adapt and use. Check out this blog post with more details and [screencast](http://bit.ly/cHDkzm). To see a demo go [here](http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/). Click login and login to your facebook account and you should see the friend selector.
 
 Much can be customized by CSS, for example if you want a stacked list type selector that's [more stripped down](http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/list.html)
 
 
-This plugin is depends on the new Facebook Javascript API
+How to use it
+-------------
+
+This plugin is depends on the Facebook Javascript API so you have to include it:
 > <script src="http://connect.facebook.net/en_US/all.js"></script>
 
-There's a jquery plugin and accompanying CSS file
+Include the plugin javascript file and CSS
 
 Assuming you have a container like:
 > <div id="jfmfs-container"></div>
 
 And you have included the Facebook Javascript API
 And you have already logged the user in. (FB.init and FB.login)
-
 You can load the friend selector in a container like this:
 > $("#jfmfs-container").jfmfs();
 
@@ -88,10 +84,9 @@ jfmfs.selection.changed - triggered on the container when a selection has change
 		    console.log("changed", data);
 		});                     
 
-Changelog
-=========
+# Changelog
 
-# Version v4
+## Version v4
 2/5/2011:
 
 * Fixed issue with images not loading when list is filtered 
@@ -102,7 +97,7 @@ Changelog
 
 * Added minified version [5.37KB (2.06KB gzipped)]
 
-# Version v3 
+## Version v3 
 1/28/2011:
 
 * Added customizable sorter option (see details in options section)
@@ -111,7 +106,7 @@ Changelog
 
 * Added exclude_friends option (see details in options section)
 
-# Version v2 (yeah, not 0.0.0.2)  
+## Version v2 (yeah, not 0.0.0.2)  
 1/21/2011:
 
 * Added some performance optimizations especially with a large number of friends
@@ -120,6 +115,5 @@ Changelog
 
 * Progressive image loading when scrolling including the usage of Ben Alman's awesome throttle/debounce library for smoother scrolling
 
-Plan to make some more enhancements are refactor code for to better enable unit tests
 
 
