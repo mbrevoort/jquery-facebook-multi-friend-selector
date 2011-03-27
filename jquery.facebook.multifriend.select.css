@@ -69,7 +69,8 @@ limitations under the License.
 
 #jfmfs-friend-selector {
     width:725px;   
-    height:376px;                            
+    height:376px;
+    overflow-y:hidden;                            
 }
 
 #jfmfs-inner-header {
