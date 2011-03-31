@@ -154,9 +154,14 @@
                         return;
                     }
                     
-                // if the max is 1 then unselect the current and select the new    
+                // if the max is 1 and this is not already selected then unselect anything currently selected    
                 if(settings.max_selected == 1) {
-                    elem.find(".selected").removeClass("selected");                    
+                  jfmsAlreadySelected = elem.find(".selected");
+			if (jfmsAlreadySelected.attr('id') == $(this).attr('id')) {
+				//do nothing. $(this).toggleClass("selected"); below will remove selection
+			} else { 
+			    elem.find(".selected").removeClass("selected");
+			}
                 }
                     
                 $(this).toggleClass("selected");
