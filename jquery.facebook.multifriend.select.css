@@ -36,6 +36,7 @@ limitations under the License.
     -webkit-border-radius: 5px;
 	-webkit-user-select:none;
 	-moz-user-select:none;
+	overflow:hidden;
 }
 
 .jfmfs-friend img {
@@ -53,7 +54,6 @@ limitations under the License.
     font-size:11px;
     overflow:hidden;
     padding:2px 0 0 6px;
-    width:62px;
 }
 
 #jfmfs-friend-container {
@@ -116,7 +116,6 @@ div.jfmfs-button {
 }
 
 #jfmfs-friend-selector a.filter-link:link, a.filter-link:visited {
-    color: #3B5998;
     font-weight: bold;
     text-decoration: none;
 }
