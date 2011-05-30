@@ -149,7 +149,7 @@
                 // already been selected, if so, just return
                 if(!$(this).hasClass("selected") && 
                     maxSelectedEnabled() &&
-                    $(".jfmfs-friend.selected").size() >= settings.max_selected &&
+                    $(".jfmfs-friend.selected").length >= settings.max_selected &&
                     settings.max_selected != 1) {
                         return;
                     }
@@ -176,7 +176,7 @@
                             for(var i=start; i<=end; i++) {
                                 var aFriend = $( all_friends[i] );
                                 if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered")) {
-                                    if( maxSelectedEnabled() && $(".jfmfs-friend.selected").size() < settings.max_selected ) {
+                                    if( maxSelectedEnabled() && $(".jfmfs-friend.selected").length < settings.max_selected ) {
                                         $( all_friends[i] ).addClass("selected");                                        
                                     }
                                 }
@@ -313,7 +313,7 @@
         };
 
         var selectedCount = function() {
-            return $(".jfmfs-friend.selected").size();
+            return $(".jfmfs-friend.selected").length;
         };
 
         var maxSelectedEnabled = function () {
