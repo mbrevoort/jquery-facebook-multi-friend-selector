@@ -63,10 +63,10 @@
 						  }
 			          });
                       $("#jfmfs-container").bind("jfmfs.friendload.finished", function() { 
-                          console.log("finished loading!"); 
+                          window.console && console.log("finished loading!"); 
                       });
                       $("#jfmfs-container").bind("jfmfs.selection.changed", function(e, data) { 
-                          console.log("changed", data);
+                          window.console && console.log("changed", data);
                       });                     
                       
                       $("#logged-out-status").hide();
