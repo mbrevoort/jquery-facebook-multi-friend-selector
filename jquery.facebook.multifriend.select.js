@@ -144,35 +144,36 @@
             
             // handle when a friend is clicked for selection
             elem.delegate(".jfmfs-friend", 'click', function(event) {
+                var onlyOne = settings.max_selected === 1,
+                    isSelected = $(this).hasClass("selected"),
+                    isMaxSelected = $(".jfmfs-friend.selected").length >= settings.max_selected,
+                    alreadySelected = friend_container.find(".selected").attr('id') === $(this).attr('id');
                 
                 // if the element is being selected, test if the max number of items have
                 // already been selected, if so, just return
-                if(!$(this).hasClass("selected") && 
-                    maxSelectedEnabled() &&
-                    $(".jfmfs-friend.selected").length >= settings.max_selected &&
-                    settings.max_selected != 1) {
-                        return;
-                    }
+                if(!onlyOne && !isSelected && maxSelectedEnabled() && isMaxSelected)
+                    return
                     
                 // if the max is 1 then unselect the current and select the new    
-                if(settings.max_selected == 1) {
-                    elem.find(".selected").removeClass("selected");                    
+                if(onlyOne && !alreadySelected) {
+                    friend_container.find(".selected").removeClass("selected");                    
                 }
                     
                 $(this).toggleClass("selected");
                 $(this).removeClass("hover");
                 
                 // support shift-click operations to select multiple items at a time
-                if( $(this).hasClass("selected")) {
+                if( $(this).hasClass("selected") ) {
                     if ( !lastSelected ) {
                         lastSelected = $(this);
                     } 
                     else {                        
                         if( event.shiftKey ) {
-                            var selIndex = $(this).index();
-                            var lastIndex = lastSelected.index();
-                            var end = Math.max(selIndex,lastIndex);
-                            var start = Math.min(selIndex,lastIndex);
+                            var selIndex = $(this).index(),
+                                lastIndex = lastSelected.index(),
+                                end = Math.max(selIndex,lastIndex),
+                                start = Math.min(selIndex,lastIndex);
+                                
                             for(var i=start; i<=end; i++) {
                                 var aFriend = $( all_friends[i] );
                                 if(!aFriend.hasClass("hide-non-selected") && !aFriend.hasClass("hide-filtered")) {
