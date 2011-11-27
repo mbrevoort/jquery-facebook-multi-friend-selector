@@ -1,6 +1,6 @@
 // Copyright 2010 Mike Brevoort http://mike.brevoort.com @mbrevoort
 // 
-// v1.0 jquery-facebook-multi-friend-selector
+// v5.0 jquery-facebook-multi-friend-selector
 // 
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.

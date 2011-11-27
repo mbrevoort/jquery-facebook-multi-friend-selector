@@ -1,0 +1,10 @@
+{
+  "name": "jquery.facebook.multifriend.select",
+  "version": "5.0.0",
+  "contributors": [ 
+    { "name": "Mike Brevoort", "email": "mike@brevoort.com" }
+  ],
+  "devDependencies": {
+   	"uglify-js": "latest"
+  }
+}
