@@ -25,7 +25,7 @@
                 FB.init({appId: '138240409546605', cookie: true});
 
                 FB.getLoginStatus(function(response) {
-                    if (response.session) {
+                    if (response.status === "connected") {
                       init();
                     } else {
                       // no user session available, someone you dont know
@@ -35,7 +35,7 @@
 
                 function login() {
                     FB.login(function(response) {
-                        if (response.session) {
+                        if (response.status === "connected") {
                             init();
                         } else {
                             alert('Login Failed!');
