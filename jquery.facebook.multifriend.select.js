@@ -124,6 +124,10 @@
             all_friends.removeClass("selected");
         };
         
+        this.clearSpecificFriend = function( withID ) {
+            $( '#' + withID ).removeClass( "selected" );
+        };
+        
         // ----------+----------+----------+----------+----------+----------+----------+
         // Private functions
         // ----------+----------+----------+----------+----------+----------+----------+
