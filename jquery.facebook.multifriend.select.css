@@ -86,7 +86,7 @@ limitations under the License.
 }
 
 .jfmfs-friend.selected {
-    background:url(images/multifriend_select/bg-friend.png) 0 0 no-repeat
+    background:url(/images/multifriend_select/bg-friend.png) 0 0 no-repeat
 }
 
 .jfmfs-friend.selected div {
@@ -130,14 +130,14 @@ div.jfmfs-button {
 #jfmfs-friend-selector a.selected {
 		border-radius: 5px; 
     color: #FFFFFF;
-		background:url(images/multifriend_select/blue-lft.png) 0 0 no-repeat;
+		background:url(/images/multifriend_select/blue-lft.png) 0 0 no-repeat;
 		padding:0 0 0 5px
 }
 #jfmfs-friend-selector a.selected strong {
 	display:block;
 	height:21px;
 	line-height:21px;
-	background:url(images/multifriend_select/blue-rgt.png) 100% 0 no-repeat;
+	background:url(/images/multifriend_select/blue-rgt.png) 100% 0 no-repeat;
 	padding-right:5px
 }
 #jfmfs-friend-selector .filter-link {
