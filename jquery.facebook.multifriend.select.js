@@ -88,6 +88,10 @@
             });
             friend_container.append(buffer.join(""));
             
+            $(".jfmfs-friend", elem).each(function (i, friend_element){
+                $("img", $(friend_element)).attr("src", "//graph.facebook.com/" + friend_element.id + "/picture");
+            });
+            
             uninitializedImagefriendElements = $(".jfmfs-friend", elem);            
             uninitializedImagefriendElements.bind('inview', function (event, visible) {
                 if( $(this).attr('src') === undefined) {
@@ -223,7 +227,8 @@
 			        all_friends.removeClass("selected");
 			        $("#jfmfs-filter-all").removeClass("selected");
     		    } else {
-    			    all_friends.not(".selected").addClass("selected");
+    		        var selectMax = (maxSelectedEnabled() ? settings.max_selected : all_friends.length);
+    			    all_friends.not(".selected").slice(0, selectMax).addClass("selected");
     			    $("#jfmfs-filter-all").addClass("selected");
     		    }
     		    lastSelected = all_friends.filter(".selected").last();
