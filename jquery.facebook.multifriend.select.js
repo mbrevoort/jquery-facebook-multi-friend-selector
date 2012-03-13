@@ -30,6 +30,7 @@
 			pre_selected_friends: [],
 			exclude_friends: [],
 			friend_fields: "id,name",
+            image_delay_time: 250, // Time it takes for images to be loaded upon scroll in ms
 			sorter: function(a, b) {
                 var x = a.name.toLowerCase();
                 var y = b.name.toLowerCase();
@@ -327,7 +328,7 @@
 				$("#jfmfs-selected-count").html( selectedCount() );
 			};
 
-            friend_container.bind('scroll', $.debounce( 250, showImagesInViewPort ));
+            friend_container.bind('scroll', $.debounce( settings.image_delay_time, showImagesInViewPort ));
 
             updateMaxSelectedMessage();                      
             showImagesInViewPort();
