@@ -122,6 +122,7 @@
         
         this.clearSelected = function () {
             all_friends.removeClass("selected");
+            resetSelectedCount();
         };
         
         // ----------+----------+----------+----------+----------+----------+----------+
@@ -341,7 +342,11 @@
         var maxSelectedEnabled = function () {
             return settings.max_selected > 0;
         };
-        
+
+        var resetSelectedCount = function () {
+            $('#jfmfs-selected-count').html('0');
+        };
+
         var updateMaxSelectedMessage = function() {
             var message = settings.labels.max_selected_message.replace("{0}", selectedCount()).replace("{1}", settings.max_selected);
             $("#jfmfs-max-selected-wrapper").html( message );
