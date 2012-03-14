@@ -204,7 +204,7 @@
 			        $(this).addClass("hide-non-selected");
 		        }
 		
-                elem.trigger("jfmfs.selection.changed", [obj.getSelectedIdsAndNames()]);
+                triggerSelectionChangedCallback();
             });
 
             // filter by selected, hide all non-selected
@@ -235,6 +235,9 @@
                 if( maxSelectedEnabled() ) {
                     updateMaxSelectedMessage();
                 }
+
+                triggerSelectionChangedCallback();
+
             });
 
             // hover effect on friends
@@ -347,6 +350,10 @@
         var resetSelectedCount = function () {
             $('#jfmfs-selected-count').html('0');
         };
+
+        var triggerSelectionChangedCallback = function () {
+            elem.trigger("jfmfs.selection.changed", [obj.getSelectedIdsAndNames()]);
+        }
 
         var updateMaxSelectedMessage = function() {
             var message = settings.labels.max_selected_message.replace("{0}", selectedCount()).replace("{1}", settings.max_selected);
