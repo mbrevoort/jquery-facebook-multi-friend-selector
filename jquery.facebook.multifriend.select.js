@@ -225,7 +225,18 @@
 			        all_friends.removeClass("selected");
 			        $("#jfmfs-filter-all").removeClass("selected");
     		    } else {
-    			    all_friends.not(".selected").addClass("selected");
+                    var amountToSelect, selectedCount = all_friends.filter(".selected").length;
+                    if (settings.max_selected > -1) {
+                        // Compute Amount To Select
+                        amountToSelect = settings.max_selected - selectedCount
+                        if (amountToSelect > 0) {
+                            // Select First n Friends Based Upon Amount To Select
+                            all_friends.not(".selected").slice(0, amountToSelect).addClass("selected");
+                        }
+                    } else {
+                        all_friends.not(".selected").addClass("selected");
+                    }
+
     			    $("#jfmfs-filter-all").addClass("selected");
     		    }
     		    lastSelected = all_friends.filter(".selected").last();
