@@ -73,6 +73,8 @@ For example your options might look like this if you want a max of 3 friends sel
 		    }
 		}
 
+* access_token: api access token override in the event that an existing, active session token is available from a server-side login flow.
+
 Events
 ------
 jfmfs.friendload.finished - triggered on the container when the list of friends is finished loading
