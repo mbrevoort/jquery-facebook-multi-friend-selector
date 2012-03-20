@@ -41,11 +41,11 @@
 				filter_default: "Start typing a name",
 				filter_title: "Find Friends:",
 				all: "All",
-				max_selected_message: "{0} of {1} selected"
-			}
+                max_selected_message: "{0} of {1} selected"
+			},
+            friend_ids: []
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
-                
         var arrayToObjectGraph = function(a) {
 			  var o = {};
 			  for(var i=0, l=a.length; i<l; i++){
@@ -62,11 +62,17 @@
             "    <div id='jfmfs-inner-header'>" +
             "        <span class='jfmfs-title'>" + settings.labels.filter_title + " </span><input type='text' id='jfmfs-friend-filter-text' value='" + settings.labels.filter_default + "'/>" +
             "        <a class='filter-link' id='jfmfs-filter-all' href='#'><strong>" + settings.labels.all + "</strong></a>" +
+            "        <a class='filter-link' id='jfmfs-filter-connects' href='#'><strong> Connects </strong></a>" +
             "        <a class='filter-link' id='jfmfs-filter-selected' href='#'><strong>" + settings.labels.selected + " (<span id='jfmfs-selected-count'>0</span>)</strong></a>" +
             ((settings.max_selected > 0) ? "<div id='jfmfs-max-selected-wrapper'></div>" : "") +
             "    </div>" +
             "    <div id='jfmfs-friend-container'></div>" +
-            "</div>" 
+            "</div>" +
+            "<style type='text/css'>" +
+            "   .hide-filtered-connects {" +     // TODO: Custom Filter Loop through passed in setting to add style
+            "       display: none;" +
+            "   }" +
+            "</style>"
         );
         
         var friend_container = $("#jfmfs-friend-container"),
@@ -221,11 +227,13 @@
             // remove filter, show all
             $("#jfmfs-filter-all").click(function(event) {
 				event.preventDefault();
-           		if (areAllSelected()) {
+           		if (areAllSelected() || isFilterSelected('all')) {
 			        all_friends.removeClass("selected");
-			        $("#jfmfs-filter-all").removeClass("selected");
+			        removeFilter('all');
     		    } else {
                     var amountToSelect, selectedCount = all_friends.filter(".selected").length;
+                    // Remove filter connects
+                    all_friends.removeClass('hide-filtered-connects');  // TODO: Custom Filter - Remove all custom filters
                     if (settings.max_selected > -1) {
                         // Compute Amount To Select
                         amountToSelect = settings.max_selected - selectedCount
@@ -237,7 +245,7 @@
                         all_friends.not(".selected").addClass("selected");
                     }
 
-    			    $("#jfmfs-filter-all").addClass("selected");
+    			    changeFilter('all');
     		    }
     		    lastSelected = all_friends.filter(".selected").last();
                     
@@ -248,6 +256,29 @@
                 }
 
                 triggerSelectionChangedCallback();
+
+            });
+
+            // connects
+            // TODO: Custom Filter - Decide whether to allow multiple custom filters selected
+            $("#jfmfs-filter-connects").click(function(event) {
+                event.preventDefault();
+                if (isFilterSelected('connects')){
+                    removeFilter('connects');
+                    all_friends.removeClass("hide-filtered-connects");
+                } else {
+                    changeFilter('connects');
+
+                    all_friends.addClass("hide-filtered-connects");
+                    var friend_id, _i, _len;
+
+                    for (_i = 0, _len = settings.friend_ids.length; _i < _len; _i++) {
+                        friend_id = settings.friend_ids[_i];
+                        $('#' + friend_id).removeClass("hide-filtered-connects");
+                    }
+                }
+                showImagesInViewPort();
+                lastSelected = all_friends.filter(".selected").last();
 
             });
 
@@ -316,7 +347,7 @@
                     $el, top_px,
                     elementVisitedCount = 0,
                     foundVisible = false,
-                    allVisibleFriends = $(".jfmfs-friend:not(.hide-filtered )");
+                    allVisibleFriends = $(".jfmfs-friend:not(.hide-filtered, .hide-filtered-connects )");// Update here for custom filter
 
                 $.each(allVisibleFriends, function(i, $el){
                     elementVisitedCount++;
@@ -354,6 +385,19 @@
             return $(".jfmfs-friend.selected").length;
         };
 
+        var changeFilter = function(filter) {
+            $('.filter-link').removeClass('selected');
+            $('#jfmfs-filter-'+filter).addClass('selected');
+        };
+
+        var removeFilter = function(filter) {
+            console.log($('#jfmfs-filter-'+filter).removeClass('selected'));
+        }
+
+        var isFilterSelected = function(filter){
+            return ($('#jfmfs-filter-'+filter+'.selected').length > 0);
+        }
+
         var maxSelectedEnabled = function () {
             return settings.max_selected > 0;
         };
@@ -372,7 +416,7 @@
         };
         
        	var areAllSelected = function() {
-	    	return (maxSelectedEnabled() && selectedCount() == settings.max_selected) || all_friends.length == selectedCount(); 
+	    	return (all_friends.length == selectedCount());
 	    }
 	
     };
