@@ -43,7 +43,7 @@
                 all:"All",
                 max_selected_message:"{0} of {1} selected"
             },
-            friend_ids:[]
+            connects:[]
         }, options || {});
         var lastSelected;  // used when shift-click is performed to know where to start from to select multiple elements
         var arrayToObjectGraph = function (a) {
@@ -82,7 +82,10 @@
             all_friends;
 
         FB.api('/me/friends?fields=' + settings.friend_fields, function (response) {
-            var sortedFriendData = response.data.sort(settings.sorter),
+            friends = _.flatten([response.data, settings.connects]);
+            Gimmiehoops.vent.trigger('facebook:friends:fetched', response.data)
+            friends = _.uniq(friends, false, function(f){return f.id;});
+            var sortedFriendData = friends.sort(settings.sorter),
                 preselectedFriends = {},
                 buffer = [],
                 selectedClass = "";
@@ -267,13 +270,12 @@
                     removeFilter('connects');
                     all_friends.removeClass("hide-filtered-connects");
                 } else {
-                    changeFilter('connects');
-
+                    addFilter('connects');
                     all_friends.addClass("hide-filtered-connects");
                     var friend_id, _i, _len;
 
-                    for (_i = 0, _len = settings.friend_ids.length; _i < _len; _i++) {
-                        friend_id = settings.friend_ids[_i];
+                    for (_i = 0, _len = settings.connects.length; _i < _len; _i++) {
+                        friend_id = settings.connects[_i].id;
                         $('#' + friend_id).removeClass("hide-filtered-connects");
                     }
                 }
@@ -389,13 +391,17 @@
             return $(".jfmfs-friend.selected").length;
         };
 
-        var changeFilter = function (filter) {
-            $('.filter-link').removeClass('selected');
+        var addFilter = function (filter){
             $('#jfmfs-filter-' + filter).addClass('selected');
         };
 
+        var changeFilter = function (filter) {
+            $('.filter-link').removeClass('selected');
+            addFilter(filter);
+        };
+
         var removeFilter = function (filter) {
-            console.log($('#jfmfs-filter-' + filter).removeClass('selected'));
+            $('#jfmfs-filter-' + filter).removeClass('selected');
         }
 
         var isFilterSelected = function (filter) {
