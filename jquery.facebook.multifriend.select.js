@@ -346,10 +346,18 @@
         });
     };
     
-    // todo, make this more ambiguous
-    $.expr[':'].Contains = function(a, i, m) { 
-        return $(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0; 
-    };
+    // Register custom selector (API changed in 1.8!)
+    if ($.fn.jquery.split('.')[1] < 8) {
+        $.expr[':'].Contains = function(a, i, m) {
+            return $(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+        };
+    } else {
+        $.expr[":"].Contains = jQuery.expr.createPseudo(function(arg) {
+            return function( elem ) {
+                return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+            };
+        });
+    }
         
 
 })(jQuery);
