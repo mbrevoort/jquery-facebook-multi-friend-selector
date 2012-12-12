@@ -242,15 +242,15 @@
                     }, 400);
                 })
                 .focus( function() {
-                    if($.trim($(this).val()) == 'Start typing a name') {
+                    if($.trim($(this).val()) == settings.labels.filter_default) {
                         $(this).val('');
                     }
-                    })
+                })
                 .blur(function() {
                     if($.trim($(this).val()) == '') {
-                        $(this).val('Start typing a name');
+                        $(this).val(settings.labels.filter_default);
                     }
-                    });
+                });
 
             // hover states on the buttons
             elem.find(".jfmfs-button").hover(
