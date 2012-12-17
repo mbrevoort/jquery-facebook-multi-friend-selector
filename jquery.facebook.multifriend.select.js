@@ -227,14 +227,13 @@
 
             // filter as you type
             elem.find("#jfmfs-friend-filter-text")
-                .keyup( function() {
+                .keyup( function(e) {
+                    if ((e.keyCode ? e.keyCode : e.which) == 27) $(this).val('');
                     var filter = $(this).val();
                     clearTimeout(keyUpTimer);
                     keyUpTimer = setTimeout( function() {
-                        if(filter == '') {
-                            all_friends.removeClass("hide-filtered");
-                        }
-                        else {
+                        all_friends.removeClass("hide-filtered");
+                        if (filter != '') {
                             container.find(".friend-name:not(:Contains(" + filter +"))").parent().addClass("hide-filtered");
                             container.find(".friend-name:Contains(" + filter +")").parent().removeClass("hide-filtered");
                         }
