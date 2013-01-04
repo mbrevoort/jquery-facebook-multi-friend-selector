@@ -21,25 +21,27 @@ limitations under the License.
     border: 1px solid #ccc;
     font: 11px verdana, arial, helvetica, sans-serif;
     margin: 2px 0;
-    padding: 2px 4px;
+    padding: 0px 4px;
 }
 .jfmfs-friend {
     cursor:pointer;
     display:block;
     float:left;
+    height:22px;
     margin:3px;
     padding:2px;
     width:180px;
-    overflow: hidden;
     border: 1px solid #FFFFFF;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     -webkit-user-select:none;
     -moz-user-select:none;
+    overflow: hidden;
 }
 
 .jfmfs-friend img {
-    border: 1px solid #CCC;
+    border:1px solid #CCC;
     float:left;
     margin:0;
     width:20px;
@@ -54,8 +56,10 @@ limitations under the License.
     color:#111111;
     font-size:11px;
     overflow:hidden;
-    padding:2px 0 0 6px;
+    padding:3px 0 0 6px;
     width:145px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #jfmfs-friend-container {
@@ -80,23 +84,17 @@ limitations under the License.
     color:#3B5998;
     font-size:11px;
     font-weight:bold;
-    height:25px;
+    height:24px;
     padding:2px;
 }
 
-.jfmfs-friend.selected {
-    background-color: #3B5998;
-    border: 1px solid #3B5998;
-
-    background: #6D84B4; /* for non-css3 browsers */
-
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#233E75', endColorstr='#6D84B4'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#233E75), to(#6D84B4)); /* for webkit browsers */
-    background: -moz-linear-gradient(top,  #233E75,  #6D84B4); /* for firefox 3.6+ */
+.jfmfs-friend:hover {
+    border: 1px solid #ECEFF5;
+    background: #ECEFF5;
 }
-
-.jfmfs-friend.selected div {
-    color: #FFFFFF;
+.jfmfs-friend.selected {
+    border: 1px solid #C3CCE1;
+    background: #D8DFEA;
 }
 
 .hover {
