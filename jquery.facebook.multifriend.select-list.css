@@ -23,19 +23,19 @@ limitations under the License.
     margin: 2px 0;
     padding: 2px 4px;
 }
-.jfmfs-friend {                
+.jfmfs-friend {
     cursor:pointer;
     display:block;
     float:left;
     margin:3px;
     padding:2px;
     width:180px;
-	overflow: hidden;
+    overflow: hidden;
     border: 1px solid #FFFFFF;
-    -moz-border-radius: 5px; 
+    -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-	-webkit-user-select:none;
-	-moz-user-select:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
 }
 
 .jfmfs-friend img {
@@ -43,7 +43,7 @@ limitations under the License.
     float:left;
     margin:0;
     width:20px;
-	height:20px;
+    height:20px;
 }
 
 .jfmfs-friend.selected img {
@@ -63,15 +63,15 @@ limitations under the License.
     overflow-x: hidden;
     -ms-overflow-x: hidden;
     width:100%;
-    height:250px;  
+    height:250px;
     font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
     color: #333;
     font-size: 12px;
 }
 
 #jfmfs-friend-selector {
-    width:210px;   
-    height:226px;                            
+    width:210px;
+    height:226px;
 }
 
 #jfmfs-inner-header {
@@ -87,12 +87,12 @@ limitations under the License.
 .jfmfs-friend.selected {
     background-color: #3B5998;
     border: 1px solid #3B5998;
-    
+
     background: #6D84B4; /* for non-css3 browsers */
 
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#233E75', endColorstr='#6D84B4'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#233E75), to(#6D84B4)); /* for webkit browsers */
-    background: -moz-linear-gradient(top,  #233E75,  #6D84B4); /* for firefox 3.6+ */    
+    background: -moz-linear-gradient(top,  #233E75,  #6D84B4); /* for firefox 3.6+ */
 }
 
 .jfmfs-friend.selected div {
@@ -125,7 +125,7 @@ div.jfmfs-button {
 
 #jfmfs-friend-selector a.filter-link:hover, #jfmfs-friend-selector a.selected {
     background-color: #6D84B4;
-    -moz-border-radius: 5px; 
+    -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     color: #FFFFFF;
 }

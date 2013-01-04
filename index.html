@@ -1,10 +1,10 @@
 <!Doctype html>
-<html> 
-    <head> 
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
-        <script type="text/javascript" src="jquery.facebook.multifriend.select.js"></script> 
-        <link rel="stylesheet" href="jquery.facebook.multifriend.select.css" /> 
-        <style> 
+<html>
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.facebook.multifriend.select.js"></script>
+        <link rel="stylesheet" href="jquery.facebook.multifriend.select.css" />
+        <style>
             body {
                 background: #fff;
                 color: #333;
@@ -15,16 +15,16 @@
                 font-weight: bold;
                 text-decoration: none;
             }
-        </style> 
-    </head> 
-    <body> 
- 
-        <div id="pageBody"> 
-            <div id="fb-root"></div> 
-            <script src="http://connect.facebook.net/en_US/all.js"></script> 
-            <script> 
+        </style>
+    </head>
+    <body>
+
+        <div id="pageBody">
+            <div id="fb-root"></div>
+            <script src="http://connect.facebook.net/en_US/all.js"></script>
+            <script>
                 FB.init({appId: '194478650562619', cookie: true});
- 
+
                 FB.getLoginStatus(function(response) {
                     if (response.authResponse) {
                       init();
@@ -32,8 +32,8 @@
                       // no user session available, someone you dont know
                     }
                 });
- 
- 
+
+
                 function login() {
                     FB.login(function(response) {
                         if (response.authResponse) {
@@ -43,58 +43,52 @@
                         }
                     });
                 }
- 
+
                 function init() {
                   FB.api('/me', function(response) {
                       $("#username").html("<img src='https://graph.facebook.com/" + response.id + "/picture'/><div>" + response.name + "</div>");
 
-
-					
-                      $("#jfmfs-container").jfmfs({ 
-					      max_selected: 15, 
-						  max_selected_message: "{0} of {1} selected",
-						  friend_fields: "id,name,last_name",
-						  pre_selected_friends: [1014025367],
-						  exclude_friends: [1211122344, 610526078],
-						  sorter: function(a, b) {
-			                var x = a.last_name.toLowerCase();
-			                var y = b.last_name.toLowerCase();
-			                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-						  }
-			          });
-                      $("#jfmfs-container").bind("jfmfs.friendload.finished", function() { 
-                          window.console && console.log("finished loading!"); 
+                      $("#jfmfs-container").jfmfs({
+                          max_selected: 15,
+                          max_selected_message: "{0} of {1} selected",
+                          friend_fields: "id,name,last_name",
+                          pre_selected_friends: [1014025367],
+                          exclude_friends: [1211122344, 610526078],
+                          sorter: function(a, b) {
+                            var x = a.last_name.toLowerCase();
+                            var y = b.last_name.toLowerCase();
+                            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+                          }
                       });
-                      $("#jfmfs-container").bind("jfmfs.selection.changed", function(e, data) { 
+                      $("#jfmfs-container").bind("jfmfs.friendload.finished", function() {
+                          window.console && console.log("finished loading!");
+                      });
+                      $("#jfmfs-container").bind("jfmfs.selection.changed", function(e, data) {
                           window.console && console.log("changed", data);
-                      });                     
-                      
+                      });
+
                       $("#logged-out-status").hide();
                       $("#show-friends").show();
-  
+
                   });
-                }              
- 
-                
- 
+                }
+
                 $("#show-friends").live("click", function() {
-                    var friendSelector = $("#jfmfs-container").data('jfmfs');             
-                    $("#selected-friends").html(friendSelector.getSelectedIds().join(', ')); 
-                });                  
- 
- 
-              </script> 
-              
-              <div id="logged-out-status" style=""> 
-                  <a href="javascript:login()">Login</a> 
-              </div> 
- 
-              <div> 
-                  <div id="username"></div> 
-                  <a href="#" id="show-friends" style="display:none;">Show Selected Friends</a> 
-                  <div id="selected-friends" style="height:30px"></div> 
-                  <div id="jfmfs-container"></div> 
-              </div> 
-        </div> 
-    </body> 
-</html> 
+                    var friendSelector = $("#jfmfs-container").data('jfmfs');
+                    $("#selected-friends").html(friendSelector.getSelectedIds().join(', '));
+                });
+            </script>
+
+            <div id="logged-out-status" style="">
+                <a href="javascript:login()">Login</a>
+            </div>
+
+            <div>
+                <div id="username"></div>
+                <a href="#" id="show-friends" style="display:none;">Show Selected Friends</a>
+                <div id="selected-friends" style="height:30px"></div>
+                <div id="jfmfs-container"></div>
+            </div>
+        </div>
+    </body>
+</html>

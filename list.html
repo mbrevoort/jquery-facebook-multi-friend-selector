@@ -33,7 +33,6 @@
                     }
                 });
 
-
                 function login() {
                     FB.login(function(response) {
                         if (response.authResponse) {
@@ -50,29 +49,25 @@
                       $("#jfmfs-container").jfmfs({ max_selected: 1, max_selected_message: "{0} of {1} selected"});
                       $("#logged-out-status").hide();
                       $("#show-friends").show();
-  
                   });
-                }              
-
+                }
 
                 $("#show-friends").live("click", function() {
-                    var friendSelector = $("#jfmfs-container").data('jfmfs');             
-                    $("#selected-friends").html(friendSelector.getSelectedIds().join(', ')); 
-                });                  
+                    var friendSelector = $("#jfmfs-container").data('jfmfs');
+                    $("#selected-friends").html(friendSelector.getSelectedIds().join(', '));
+                });
+            </script>
 
+            <div id="logged-out-status" style="">
+                <a href="javascript:login()">Login</a>
+            </div>
 
-              </script>
-              
-              <div id="logged-out-status" style="">
-                  <a href="javascript:login()">Login</a>
-              </div>
-
-              <div>
-                  <div id="username"></div>
-                  <a href="#" id="show-friends" style="display:none;">Show Selected Friends</a>
-                  <div id="selected-friends" style="height:30px"></div>
-                  <div id="jfmfs-container"></div>
-              </div>
+            <div>
+                <div id="username"></div>
+                <a href="#" id="show-friends" style="display:none;">Show Selected Friends</a>
+                <div id="selected-friends" style="height:30px"></div>
+                <div id="jfmfs-container"></div>
+            </div>
         </div>
     </body>
 </html>
