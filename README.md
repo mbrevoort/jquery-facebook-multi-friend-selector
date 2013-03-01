@@ -1,3 +1,12 @@
+ISO New Maintainer
+------------------
+
+I'm sorry. I haven't had any time to maintain this library (sadpanda). I'm looking for a volunteer to help maintain and progress the library... because everyone's friends deserve to be selected sometimes.
+
+
+Overview
+--------
+
 This is an client side alternative to the Facebook Multi-Friend Selector that 
 relies on jQuery. No server side component necessary which makes it really
 easy to adapt and use. Check out this blog post with more details and [screencast](http://bit.ly/cHDkzm). To see a demo go [here](http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/). Click login and login to your facebook account and you should see the friend selector.
