@@ -1,3 +1,8 @@
+Update
+------
+
+@rweng maintains a more generic and up to date fork of this repository at [https://github.com/rweng/jquery-thingy-picker](https://github.com/rweng/jquery-thingy-picker).
+
 ISO New Maintainer
 ------------------
 
