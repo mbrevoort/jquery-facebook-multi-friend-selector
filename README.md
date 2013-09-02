@@ -9,10 +9,7 @@ Overview
 
 This is an client side alternative to the Facebook Multi-Friend Selector that 
 relies on jQuery. No server side component necessary which makes it really
-easy to adapt and use. Check out this blog post with more details and [screencast](http://bit.ly/cHDkzm). To see a demo go [here](http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/). Click login and login to your facebook account and you should see the friend selector.
-
-Much can be customized by CSS, for example if you want a stacked list type selector that's [more stripped down](http://mbrevoort.github.com/jquery-facebook-multi-friend-selector/list.html)
-
+easy to adapt and use.
 
 How to use it
 -------------
@@ -27,8 +24,8 @@ Assuming you have a container like:
 
 		<div id="jfmfs-container"></div>
 
-And you have included the Facebook Javascript API
-And you have already logged the user in. (FB.init and FB.login)
+And you have included the Facebook Javascript API.
+And you have already logged the user in. (FB.init and FB.login).
 You can load the friend selector in a container like this:
 
 		$("#jfmfs-container").jfmfs();
@@ -97,6 +94,21 @@ jfmfs.selection.changed - triggered on the container when a selection has change
 		});                     
 
 # Changelog
+
+## Version v5
+2/9/2013:
+
+* Fixed for jQuery 1.8 (containes selector) and 1.9+ (removed .live())
+
+* Fixed bugs in localisation, search, ...
+
+* Added diacritic insensitive search
+
+* ESC cancels search
+
+* Added LESS version of CSS, CSS cleanup/update
+
+* Added minified version of CSS
 
 ## Version v4
 2/5/2011:
