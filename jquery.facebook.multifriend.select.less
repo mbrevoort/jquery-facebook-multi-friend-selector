@@ -1,0 +1,129 @@
+/*
+Copyright 2013 Marek Jalovec (marek.jalovec@gmail.com) @marekjalovec
+
+Based on work of Mike Brevoort http://mike.brevoort.com @mbrevoort
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@import "lesshat.less";
+
+#jfmfs-container {
+    font: 11px/1 'lucida grande', tahoma, verdana, arial, sans-serif;
+
+    #jfmfs-friend-selector {
+        width: 725px;
+        height: 430px;
+        overflow-y: hidden;
+
+        #jfmfs-inner-header {
+            height: 24px;
+            color: #3B5998;
+            font-weight: bold;
+            background: #F7F7F7;
+            border-bottom: 1px solid #CCCCCC;
+            padding: 2px;
+
+            span.jfmfs-title {
+                color: #333333;
+                font-weight: bold;
+                margin: 3px 0 2px 6px;
+            }
+            input {
+                height: 23px;
+                font: 11px/1 'lucida grande', tahoma, verdana, arial, sans-serif;
+                background-color: #FCFCFC;
+                border: 1px solid #CCC;
+                margin: 2px 0;
+                padding: 0px 4px;
+            }
+            #jfmfs-filter-all, #jfmfs-filter-selected {
+                color: #000;
+                text-decoration: none;
+                margin: 4px 5px 4px 5px;
+                padding: 3px 5px 3px 5px;
+                float: right;
+
+                &:hover {
+                    color: #3b5998;
+                    text-decoration: underline;
+                }
+                &.selected {
+                    color: #FFF;
+                    font-weight: bold;
+                    text-decoration: none;
+                    background: #6D84B4;
+                    .border-radius(3px);
+                }
+            }
+            #jfmfs-max-selected-wrapper {
+                margin: 4px 5px 4px 5px;
+                padding: 3px 5px 3px 5px;
+                float: right;
+            }
+        }
+
+        #jfmfs-friend-container {
+            overflow: scroll;
+            overflow-x: hidden;
+            -ms-overflow-x: hidden;
+            width: 100%;
+            height: 400px;
+            color: #333;
+            font-size: 12px;
+
+            .jfmfs-friend {
+                width: 126px;
+                height: 52px;
+                border: 1px solid #FFF;
+                .border-radius(3px);
+                .user-select(none);
+                margin: 3px;
+                padding: 4px;
+                overflow: hidden;
+                cursor: pointer;
+                display: block;
+                float: left;
+
+                img {
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid #CCC;
+                    float: left;
+                    margin: 0;
+                }
+                div {
+                    color: #111;
+                    overflow: hidden;
+                    padding: 2px 0 0 6px;
+                }
+
+                &:hover, &.hover {
+                    border: 1px solid #ECEFF5;
+                    background: #EFF2F7;
+                }
+                &.selected {
+                    border: 1px solid #C3CCE1;
+                    background: #D8DFEA;
+
+                    img {
+                        border: 1px solid #233E75;
+                    }
+                }
+                &.hide-non-selected, &.hide-filtered {
+                    display: none;
+                }
+            }
+        }
+    }
+}

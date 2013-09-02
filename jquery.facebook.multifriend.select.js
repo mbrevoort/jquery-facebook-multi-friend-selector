@@ -1,5 +1,7 @@
 // Copyright 2010 Mike Brevoort http://mike.brevoort.com @mbrevoort
 //
+// Fixes and optimization - 2013 Marek Jalovec (marek.jalovec@gmail.com) @marekjalovec
+//
 // v5.0 jquery-facebook-multi-friend-selector
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -214,8 +216,9 @@
                 $(this).addClass("selected");
             });
 
-            // hover effect on friends
-            elem.find(".jfmfs-friend:not(.selected)").live(
+            // force hover effect on friends
+            if ($.live) {
+                elem.find(".jfmfs-friend:not(.selected)").live(
                 'hover', function (ev) {
                     if (ev.type == 'mouseover') {
                         $(this).addClass("hover");
@@ -224,6 +227,16 @@
                         $(this).removeClass("hover");
                     }
                 });
+            }
+            // .live deprecated in jQuery 1.7 and removed in 1.9
+            else {
+                elem.on("mouseover", ".jfmfs-friend:not(.selected)", function (ev) {
+                    $(this).addClass("hover");
+                });
+                elem.on("mouseout", ".jfmfs-friend:not(.selected)", function (ev) {
+                    $(this).removeClass("hover");
+                });
+            }
 
             // filter as you type
             elem.find("#jfmfs-friend-filter-text")
@@ -250,12 +263,6 @@
                         $(this).val(settings.labels.filter_default);
                     }
                 });
-
-            // hover states on the buttons
-            elem.find(".jfmfs-button").hover(
-                function(){ $(this).addClass("jfmfs-button-hover");} ,
-                function(){ $(this).removeClass("jfmfs-button-hover");}
-            );
 
             // manages lazy loading of images
             var getViewportHeight = function() {
