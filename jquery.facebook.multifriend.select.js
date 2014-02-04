@@ -124,6 +124,19 @@
             all_friends.removeClass("selected");
         };
         
+        this.deselectSelectedId = function (id) {
+            $.each(elem.find(".jfmfs-friend.selected"), function (i, friend) {
+                if ($(friend).attr("id") == id) {
+                    $(friend).removeClass("selected");
+                }
+            });
+            // update the count of the total number selected
+            $("#jfmfs-selected-count").html($(".jfmfs-friend.selected").length);
+            //update how many are selected of the maximum
+            var message = settings.labels.max_selected_message.replace("{0}", $(".jfmfs-friend.selected").length).replace("{1}", settings.max_selected);
+            $("#jfmfs-max-selected-wrapper").html(message);
+        };
+        
         // ----------+----------+----------+----------+----------+----------+----------+
         // Private functions
         // ----------+----------+----------+----------+----------+----------+----------+
