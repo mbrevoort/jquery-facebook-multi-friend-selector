@@ -73,31 +73,40 @@
 			preselected_friends_graph = arrayToObjectGraph(settings.pre_selected_friends),
 			excluded_friends_graph = arrayToObjectGraph(settings.exclude_friends),
             all_friends;
-            
-        FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
-            var sortedFriendData = response.data.sort(settings.sorter),
-                preselectedFriends = {},
-                buffer = [],
-			    selectedClass = "";
-            
-            $.each(sortedFriendData, function(i, friend) {
-				if(! (friend.id in excluded_friends_graph)) {
-					selectedClass = (friend.id in preselected_friends_graph) ? "selected" : "";
-	                buffer.push("<div class='jfmfs-friend " + selectedClass + " ' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
-				}
-            });
-            friend_container.append(buffer.join(""));
-            
-            uninitializedImagefriendElements = $(".jfmfs-friend", elem);            
-            uninitializedImagefriendElements.bind('inview', function (event, visible) {
-                if( $(this).attr('src') === undefined) {
-                    $("img", $(this)).attr("src", "//graph.facebook.com/" + this.id + "/picture");
-                }
-                $(this).unbind('inview');
-            });
+        
+        this.getFriends = function() {
+          FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
+            if(typeof(response.data) == 'undefined') {
+              setTimeout(obj.getFriends, 500);
+              return;
+            }
+              var sortedFriendData = response.data.sort(settings.sorter),
+                  preselectedFriends = {},
+                  buffer = [],
+  			    selectedClass = "";
 
-            init();
-        });
+              $.each(sortedFriendData, function(i, friend) {
+  				if(! (friend.id in excluded_friends_graph)) {
+  					selectedClass = (friend.id in preselected_friends_graph) ? "selected" : "";
+  	                buffer.push("<div class='jfmfs-friend " + selectedClass + " ' id='" + friend.id  +"'><img/><div class='friend-name'>" + friend.name + "</div></div>");            
+  				}
+              });
+              friend_container.append(buffer.join(""));
+
+              uninitializedImagefriendElements = $(".jfmfs-friend", elem);            
+              uninitializedImagefriendElements.bind('inview', function (event, visible) {
+                  if( $(this).attr('src') === undefined) {
+                      $("img", $(this)).attr("src", "//graph.facebook.com/" + this.id + "/picture");
+                  }
+                  $(this).unbind('inview');
+              });
+
+              init();
+          });
+        }   
+        
+        this.getFriends(); 
+        
         
         
         // ----------+----------+----------+----------+----------+----------+----------+
