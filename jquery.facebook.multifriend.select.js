@@ -60,8 +60,8 @@
             "<div id='jfmfs-friend-selector'>" +
             "    <div id='jfmfs-inner-header'>" +
             "        <span class='jfmfs-title'>" + settings.labels.filter_title + " </span><input type='text' id='jfmfs-friend-filter-text' value='" + settings.labels.filter_default + "'/>" +
-            "        <a class='filter-link selected' id='jfmfs-filter-all' href='#'>" + settings.labels.all + "</a>" +
-            "        <a class='filter-link' id='jfmfs-filter-selected' href='#'>" + settings.labels.selected + " (<span id='jfmfs-selected-count'>0</span>)</a>" +
+            "        <a class='filter-link' id='jfmfs-filter-all' href='#'><strong>" + settings.labels.all + "</strong></a>" +
+            "        <a class='filter-link' id='jfmfs-filter-selected' href='#'><strong>" + settings.labels.selected + " (<span id='jfmfs-selected-count'>0</span>)</strong></a>" +
             ((settings.max_selected > 0) ? "<div id='jfmfs-max-selected-wrapper'></div>" : "") +
             "    </div>" +
             "    <div id='jfmfs-friend-container'></div>" +
@@ -87,6 +87,10 @@
 				}
             });
             friend_container.append(buffer.join(""));
+            
+            $(".jfmfs-friend", elem).each(function (i, friend_element){
+                $("img", $(friend_element)).attr("src", "//graph.facebook.com/" + friend_element.id + "/picture");
+            });
             
             uninitializedImagefriendElements = $(".jfmfs-friend", elem);            
             uninitializedImagefriendElements.bind('inview', function (event, visible) {
@@ -195,23 +199,45 @@
                 if( maxSelectedEnabled() ) {
                     updateMaxSelectedMessage();
                 }
+                
+                areAllSelected() ? $("#jfmfs-filter-all").addClass("selected") : $("#jfmfs-filter-all").removeClass("selected");
+		
+		        if ($("#jfmfs-filter-selected").hasClass("selected") && !$(this).hasClass("selected")) {
+			        $(this).addClass("hide-non-selected");
+		        }
+		
                 elem.trigger("jfmfs.selection.changed", [obj.getSelectedIdsAndNames()]);
             });
 
             // filter by selected, hide all non-selected
             $("#jfmfs-filter-selected").click(function(event) {
 				event.preventDefault();
-                all_friends.not(".selected").addClass("hide-non-selected");
-                $(".filter-link").removeClass("selected");
-                $(this).addClass("selected");
+                if ($(this).hasClass("selected")) {
+			        all_friends.removeClass("hide-non-selected");
+		        } else {
+			        all_friends.not(".selected").addClass("hide-non-selected");
+		        }
+		        $(this).toggleClass("selected");
             });
 
             // remove filter, show all
             $("#jfmfs-filter-all").click(function(event) {
 				event.preventDefault();
-                all_friends.removeClass("hide-non-selected");
-                $(".filter-link").removeClass("selected");
-                $(this).addClass("selected");
+           		if (areAllSelected()) {
+			        all_friends.removeClass("selected");
+			        $("#jfmfs-filter-all").removeClass("selected");
+    		    } else {
+    		        var selectMax = (maxSelectedEnabled() ? settings.max_selected : all_friends.length);
+    			    all_friends.not(".selected").slice(0, selectMax).addClass("selected");
+    			    $("#jfmfs-filter-all").addClass("selected");
+    		    }
+    		    lastSelected = all_friends.filter(".selected").last();
+                    
+                // update the count of the total number selected
+                updateSelectedCount();
+                if( maxSelectedEnabled() ) {
+                    updateMaxSelectedMessage();
+                }
             });
 
             // hover effect on friends
@@ -326,6 +352,10 @@
             $("#jfmfs-max-selected-wrapper").html( message );
         };
         
+       	var areAllSelected = function() {
+	    	return (maxSelectedEnabled() && selectedCount() == settings.max_selected) || all_friends.length == selectedCount(); 
+	    }
+	
     };
     
 
