@@ -19,9 +19,10 @@ limitations under the License.
 #jfmfs-friend-selector input {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
-    font: 11px verdana, arial, helvetica, sans-serif;
+    font: 11px/20px verdana, arial, helvetica, sans-serif;
     margin: 2px 0;
-    padding: 2px 4px;
+    padding: 0 4px;
+    float: left;
 }
 .jfmfs-friend {                
     cursor:pointer;
@@ -143,14 +144,15 @@ div.jfmfs-button {
 
 
 #jfmfs-friend-filter-text {
-    height: 23px;
+    height:22px;
 }
 
 
 #jfmfs-inner-header span.jfmfs-title {
     color: #333333;
     font-weight: bold;
-    margin: 3px 0 2px;
+    margin: 7px 5px 0 5px;
+    float: left;
 }
 
 #jfmfs-max-selected-wrapper {
