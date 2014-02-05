@@ -25,6 +25,7 @@
             first_element_offset_px;
             
         var settings = $.extend({
+            access_token: null,
             max_selected: -1,
             max_selected_message: "{0} of {1} selected",
 			pre_selected_friends: [],
@@ -73,12 +74,17 @@
 			preselected_friends_graph = arrayToObjectGraph(settings.pre_selected_friends),
 			excluded_friends_graph = arrayToObjectGraph(settings.exclude_friends),
             all_friends;
+
+        if (settings.access_token === null)
+            uri = '/me/friends?&fields=' + settings.friend_fields;
+        else
+            uri = '/me/friends?access_token='+settings.access_token+'&fields=' + settings.friend_fields;
             
-        FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
+        FB.api(uri, function(response) {
             var sortedFriendData = response.data.sort(settings.sorter),
                 preselectedFriends = {},
                 buffer = [],
-			    selectedClass = "";
+		selectedClass = "";
             
             $.each(sortedFriendData, function(i, friend) {
 				if(! (friend.id in excluded_friends_graph)) {
